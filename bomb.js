@@ -95,7 +95,7 @@ function countBombs(x, y) {
 }
 
 /**
- * A simple Deep-first-search algorithm
+ * A simple Depth-first-search algorithm
  * Search the graph, open items have no number
  * Colour items have number, NOT open them.
  */
