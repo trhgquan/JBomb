@@ -3,6 +3,9 @@ JBomb - a Minesweeper-like game created with JavaScript (pure) and HTML5 Canvas.
 
 Yes, this project is not finished yet. More updates coming.
 
+# DEMO
+[Live demo here](https://trhgquan.github.io/JBomb/index.html)
+
 # Author
 GitHub: [trhgquan](https://github.com/trhgquan)
 
