@@ -1,0 +1,35 @@
+<!--
+Young man, please stop!
+This project is, ironically, so vulnerable.
+I create this project to test my skills in algorithms, particularly Graph Theory.
+For algorithm, bomb.js is what you want to see.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JBomb</title>
+    </head>
+    <body>
+        <div id="setting">
+            <table>
+                <tr>
+                    <td>Grid width:</td>
+                    <td><input type="text" id="grid_width" value="5"></td>
+                </tr>
+                <tr>
+                    <td>Grid height:</td>
+                    <td><input type="text" id="grid_height" value="5"></td>
+                    <td><button onclick="drawCanvas(); return false;">Play</button></td>
+                </tr>
+            </table>
+        </div>
+        <div id="game">
+            <canvas id="grid"></canvas>
+        </div>
+        <div id="result"> </div>
+    </body>
+    <script src="canvas.js"></script>
+    <script src="control.js"></script>
+    <script src="bomb.js"></script>
+</html>
