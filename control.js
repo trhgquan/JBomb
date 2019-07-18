@@ -6,8 +6,8 @@
 function handleClick(e) {
     // If there is not a bomb
     // Get grid's position
-    var x = Math.floor(e.offsetX / boxSize);
-    var y = Math.floor(e.offsetY / boxSize);
+    let x = Math.floor(e.offsetX / boxSize);
+    let y = Math.floor(e.offsetY / boxSize);
 
     // result.innerText = x + ' ' + y;
     // result.innerText = "Number of bombs: " + numberBomb--;
@@ -17,7 +17,7 @@ function handleClick(e) {
         // setTextByPosition(x, y, cells[x][y]);
         DFS(x, y);
         if (finished()) endGame(true);
-    } else if (bombs[x][y]) {
+    } else if (bombs[x][y] && !marked[x][y]) {
         // Show locations of the bombs.
 		showBomb();
         endGame(false);
@@ -30,8 +30,8 @@ function handleClick(e) {
  */
 function handleRightClick(e) {
     // Get grid's position
-    var x = Math.floor(e.offsetX / boxSize);
-    var y = Math.floor(e.offsetY / boxSize);
+    let x = Math.floor(e.offsetX / boxSize);
+    let y = Math.floor(e.offsetY / boxSize);
 
     if (!opened[x][y] && !marked[x][y]) {
         // Mark that position has a bomb.
@@ -70,8 +70,8 @@ function drawCanvas() {
  * Show locations of the bombs
  */
 function showBomb() {
-    for (var i = 0; i < width; ++i)
-        for (var j = 0; j < height; ++j)
+    for (let i = 0; i < width; ++i)
+        for (let j = 0; j < height; ++j)
             if (bombs[i][j])  setColourByPosition(i, j, "red");
 }
 
@@ -92,10 +92,9 @@ function endGame(state){
  * Return true if no cell is uncheck, bomb cells are checked
  */
 function finished() {
-    let finished = true;
-    for (var i = 0; i < width; ++i)
-        for (var j = 0; j < height; ++j)
+    for (let i = 0; i < width; ++i)
+        for (let j = 0; j < height; ++j)
             if ((!bombs[i][j] && opened[i][j]) || (bombs[i][j] && marked[i][j])) continue;
-            else finished = false;
-    return finished;
+            else return false;
+    return true;
 }
