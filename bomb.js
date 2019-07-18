@@ -19,8 +19,8 @@ function generateRandom(max, min) {
  */
 function bombGenerator() {
     // Calculate number of bombs.
-    var maxBomb = Math.floor((width * height) / 2);
-    var minBomb = width;
+    let maxBomb = Math.floor((width * height) / 2);
+    let minBomb = width;
     numberBomb = generateRandom(maxBomb, minBomb);
 
     // Number of bombs must larger than grid's width
@@ -33,7 +33,7 @@ function bombGenerator() {
 
     let bombX, bombY, inner = result.innerText;
 
-    for (var i = 0; i < numberBomb; ++i) {
+    for (let i = 0; i < numberBomb; ++i) {
         do {
             bombX = generateRandom(Number(width), 0);
             bombY = generateRandom(Number(height), 0);
@@ -41,13 +41,6 @@ function bombGenerator() {
 
         // Set the position of the bomb
         bombs[bombX][bombY] = true;
-
-        // Draw canvas (delete when it is done)
-        // (These for debugging)
-        // canvas.fillStyle = "red";
-        // setColourByPosition(bombX, bombY, "red");
-        // inner += '\t' + '[' + bombX + ', ' + bombY + ']';
-        // result.innerText = inner;
     }
 }
 
@@ -55,8 +48,8 @@ function bombGenerator() {
  * Count number of bombs around the grid (a grid consist of many cells).
  */
 function numberGenerator() {
-    for (var i = 0; i < width; i++)
-        for (var j = 0; j < height; j++)
+    for (let i = 0; i < width; i++)
+        for (let j = 0; j < height; j++)
     		countBombs(i, j);
 }
 
@@ -115,14 +108,8 @@ function DFS(x, y) {
         return false;
     }
 
-    // setColourByPosition(x, y, "green");
-
-    // A simplify for DFS, must do when finished.
-    // let xPos = {0, 0, 1, -1, 1, -1};
-    // let yPos = {1, -1, 0, 0, -1, 1};
-    // for (var i = 0; i < xPos.length; ++i)
-    //     for (var j = 0; j < yPos.length; ++j)
-
+    // Check other nearby cells, if it does not contains a number
+    // then open it.
     if (x + 1 < width) DFS(x + 1, y);
     if (x - 1 >= 0) DFS(x - 1, y);
     if (y + 1 < height) DFS(x, y + 1);

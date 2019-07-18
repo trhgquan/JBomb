@@ -25,7 +25,7 @@ function drawBox(width, height) {
     canvas.strokeStyle = 'black';   // Canvas stroke
     canvas.font = "20px Arial red"; // Text font
 
-    for (var row = 0; row < width; row++) {
+    for (let row = 0; row < width; row++) {
         // Declare variables for algorithm
         // a.k.a declare a 2D array in Js.
         cells[row] = [];
@@ -33,7 +33,7 @@ function drawBox(width, height) {
         bombs[row] = [];
         marked[row] = [];
 
-        for (var column = 0; column < height; column++) {
+        for (let column = 0; column < height; column++) {
             // Declare variables for algorithm
             cells[row][column] = 0;
             opened[row][column] = 0;
@@ -41,8 +41,8 @@ function drawBox(width, height) {
             marked[row][column] = false;
 
             // Canvas draw here.
-            var x = column * boxSize;
-            var y = row * boxSize;
+            let x = column * boxSize;
+            let y = row * boxSize;
             canvas.rect(x, y, boxSize, boxSize);
             canvas.fill();
             canvas.stroke();
