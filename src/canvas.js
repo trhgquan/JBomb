@@ -4,7 +4,8 @@
 const result = document.getElementById('result'),
       grid_width = document.getElementById('grid_width'),
       grid_height = document.getElementById('grid_height'),
-      grid = document.getElementById('grid');
+      grid = document.getElementById('grid'),
+      clock = document.getElementById('clock');
 
 // Some elements, canvas art mostly.
 var canvas,

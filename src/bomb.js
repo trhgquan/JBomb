@@ -3,7 +3,7 @@ var opened = [];
 var bombs = [];
 var marked = [];
 
-var gameResult = true;
+var gameStarted = false; // This activate the game's clock
 var numberBomb;
 
 /**

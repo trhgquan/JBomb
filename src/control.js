@@ -1,3 +1,4 @@
+var gameClockInterval;
 
 /**
  * Handle left click
@@ -9,12 +10,8 @@ function handleClick(e) {
     let x = Math.floor(e.offsetX / boxSize);
     let y = Math.floor(e.offsetY / boxSize);
 
-    // result.innerText = x + ' ' + y;
-    // result.innerText = "Number of bombs: " + numberBomb--;
-
     // Click that element
     if (!bombs[x][y] && !marked[x][y]) {
-        // setTextByPosition(x, y, cells[x][y]);
         DFS(x, y);
         if (finished()) endGame(true);
     } else if (bombs[x][y] && !marked[x][y]) {
@@ -64,6 +61,11 @@ function drawCanvas() {
     drawBox(width, height);
     bombGenerator();
     numberGenerator();
+
+    // If the game has started already,
+    // and the player restart it then restart the clock,
+    if (gameStarted) clockReset();
+    clockStart();
 }
 
 /**
@@ -85,6 +87,9 @@ function endGame(state){
     // THIS TO TELL USER THAT THE GAME IS ENDED.
     grid.removeEventListener('click', handleClick);
     grid.removeEventListener('contextmenu', handleRightClick);
+
+    // Reset the clock
+    clockReset();
 }
 
 /**
@@ -97,4 +102,31 @@ function finished() {
             if ((!bombs[i][j] && opened[i][j]) || (bombs[i][j] && marked[i][j])) continue;
             else return false;
     return true;
+}
+
+/**
+ * Start the clock
+ */
+function clockStart() {
+    // Clock text
+    clock.innerText = 0;
+
+    // Start the clock
+    gameClockInterval = setInterval(function() {
+        let gameClockinnerText = Number(clock.innerText) + 1;
+        clock.innerText = gameClockinnerText;
+    }, 1000);
+
+    // Mark the clock started
+    gameStarted = true;
+}
+
+/**
+ * Reset the clock
+ */
+function clockReset() {
+    // THIS TO STOP THE GAME CLOCK
+    clearInterval(gameClockInterval);
+    // mark as not started so the clock will be reset next time.
+    gameStarted = false;
 }
