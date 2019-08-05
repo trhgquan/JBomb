@@ -62,9 +62,9 @@ function drawBox(width, height) {
  * Color a cell
  * (by geometry position method)
  */
-function setColourByPosition (x, y, color) {
-    canvas.fillStyle = color;
-    canvas.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
+function setColourByPosition (x, y, colour) {
+    canvas.fillStyle = colour;
+    canvas.fillRect((x * boxSize) + 2, (y * boxSize) + 2, boxSize - 4, boxSize - 4);
 }
 
 /**
@@ -72,5 +72,5 @@ function setColourByPosition (x, y, color) {
  */
 function setTextByPosition (x, y, txt) {
     canvas.fillStyle = "black";
-    canvas.fillText(txt, (boxSize * x) + (boxSize / 2), (boxSize * y) + (boxSize / 2));
+    canvas.fillText(txt, (boxSize * x) + (boxSize / 2.5), (boxSize * y) + (boxSize / 1.75));
 }

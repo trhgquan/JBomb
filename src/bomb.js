@@ -21,7 +21,6 @@ function bombGenerator() {
     // Calculate number of bombs.
     let maxBomb = Math.floor((width * height) / 2);
     let minBomb = width;
-    numberBomb = generateRandom(maxBomb, minBomb);
 
     // Number of bombs must larger than grid's width
     // and smaller than grid's size.
