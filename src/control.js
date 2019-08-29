@@ -50,8 +50,8 @@ function handleRightClick(e) {
  * Handle the "Play" button click
  */
 function drawCanvas() {
-    width  = grid_width.value;
-    height = grid_width.value;
+    width  = grid_size.value;
+    height = grid_size.value;
 
     // Resize the canvas html element
     grid.height = height * boxSize;

@@ -2,8 +2,8 @@
  * Global constants, DOM Elements mostly.
  */
 const result = document.getElementById('result'),
-      grid_width = document.getElementById('grid_width'),
-      grid_height = document.getElementById('grid_height'),
+      grid_size = document.getElementById('grid_size'),
+      grid_size_display = document.getElementById('grid_size_display'),
       grid = document.getElementById('grid'),
       clock = document.getElementById('clock');
 
@@ -56,6 +56,9 @@ function drawBox(width, height) {
     // left-click and right-click
     grid.addEventListener('click', handleClick);
     grid.addEventListener('contextmenu', handleRightClick);
+
+    // Tell the user the grid_size.
+    grid_size_display.innerText = width + " x " + height;
 }
 
 /**

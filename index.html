@@ -17,13 +17,13 @@ For Game canvas aka how to draw the gameboard, visit canvas.js.
         <div id="setting">
             <table>
                 <tr>
-                    <td>Grid width:</td>
-                    <td><input type="text" id="grid_width" value="5"></td>
+                    <td>Grid size:</td>
+                    <td><input type="text" id="grid_size" value="5"></td>
+                    <td><button type="button" onclick="drawCanvas(); return false;">Play</button></td>
                 </tr>
                 <tr>
-                    <td>Grid height:</td>
-                    <td><input type="text" id="grid_height" value="5"></td>
-                    <td><button onclick="drawCanvas(); return false;">Play</button></td>
+                    <td></td>
+                    <td><span id="grid_size_display"></span></td>
                 </tr>
             </table>
         </div>
