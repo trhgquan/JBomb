@@ -7,3 +7,7 @@ body {
     text-align: center;
     min-height: 100vh;
 }
+
+#authorZone {
+    text-align: left;
+}
