@@ -12,21 +12,20 @@ For Game canvas aka how to draw the gameboard, visit canvas.js.
         <meta charset="utf-8">
         <meta name="description" content="JBomb - a Minesweeper-like game created with JavaScript (pure) and HTML5 Canvas.">
         <title>JBomb</title>
+        <link rel="stylesheet" href="src/style.css">
     </head>
     <body>
-        <div id="setting">
-            <table>
-                <tr>
-                    <td>Grid size:</td>
-                    <td><input type="text" id="grid_size" value="5"></td>
-                    <td><button type="button" onclick="drawCanvas(); return false;">Play</button></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><span id="grid_size_display"></span></td>
-                </tr>
-            </table>
+        <div id="intro">
+            <h1>JBomb</h1>
+            <p>A Minesweeper-like game created with JavaScript(pure) and HTML5 Canvas.</p>
         </div>
+
+        <div id="setting">
+            Grid size: <input type="text" id="grid_size" value="5">
+            <button type="button" onclick="drawCanvas(); return false;">Play</button>
+        </div>
+
+        <div id="grid_size_display"></div>
         <!-- Game clock -->
         <div id="gameClock">
             Your time: <span id="clock">0</span>s
@@ -35,7 +34,10 @@ For Game canvas aka how to draw the gameboard, visit canvas.js.
             <canvas id="grid"></canvas>
         </div>
         <div id="result"></div>
-
+        <div id="authorZone">
+            <p>GitHub <a href="https://github.com/trhgquan" target="_blank">@trhgquan</a>, <script>document.write((new Date).getFullYear());</script></p>
+            <p><a href="https://www.tranhoangquan.codes" target="_blank">www.tranhoangquan.codes</a></p>
+        </div>
     </body>
     <script src="src/canvas.js"></script>
     <script src="src/control.js"></script>

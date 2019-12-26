@@ -28,7 +28,7 @@ function bombGenerator() {
         numberBomb = generateRandom(maxBomb, minBomb);
     } while (numberBomb <= minBomb || numberBomb >= maxBomb);
 
-    result.innerText = "Number of bombs: " + numberBomb;
+    result.innerText = "Bombs: " + numberBomb;
 
     let bombX, bombY, inner = result.innerText;
 
