@@ -9,7 +9,7 @@ Yes, this project is not finished yet. More updates coming.
 # Author
 GitHub: [trhgquan](https://github.com/trhgquan)
 
-Personal website: [https://www.tranhoan.gq/uan](https://www.tranhoan.gq/uan)
+Personal website: [https://www.tranhoangquan.codes](https://www.tranhoangquan.codes)
 
 Send me an email via: *my contact email, you know where, on my GitHub profile*.
 
