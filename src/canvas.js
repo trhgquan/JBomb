@@ -21,10 +21,10 @@ function drawBox(width, height) {
 
     // These codeblocks generate a (width * height) grid.
     canvas.beginPath();
-    canvas.fillStyle = "white";     // Background colour: black
-    canvas.lineWidth = 3;           // Canvas stroke's width
-    canvas.strokeStyle = 'black';   // Canvas stroke
-    canvas.font = "20px Arial red"; // Text font
+    canvas.fillStyle = "white";                 // At the beginning, cell is colored white
+    canvas.lineWidth = 3;                       // Canvas stroke's width
+    canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
+    canvas.font = "20px Old Standard TT red";   // Text font
 
     for (let row = 0; row < width; row++) {
         // Declare variables for algorithm

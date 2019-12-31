@@ -16,7 +16,7 @@ function handleClick(e) {
         if (finished()) endGame(true);
     } else if (bombs[x][y] && !marked[x][y]) {
         // Show locations of the bombs.
-		showBomb();
+        showBomb();
         endGame(false);
     }
 }
@@ -84,8 +84,13 @@ function showBomb() {
  * Actions when the game is finished
  */
 function endGame(state){
-    if (state) { result.innerText = 'YOU WON!'; result.style.color = "#14eb6a";}
-    else { result.innerText = 'YOU LOST!'; result.style.color = "#ff3300";}
+    if (state) {
+        result.innerText = 'YOU WON!';
+        result.style.color = "#14eb6a";
+    } else {
+        result.innerText = 'YOU LOST!';
+        result.style.color = "#ff3300";
+    }
 
     // THIS TO TELL USER THAT THE GAME IS ENDED.
     grid.removeEventListener('click', handleClick);
