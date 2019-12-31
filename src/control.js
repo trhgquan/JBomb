@@ -57,6 +57,9 @@ function drawCanvas() {
     grid.height = height * boxSize;
     grid.width  = width * boxSize;
 
+    // Re-colour the result box
+    result.style.color = "#000000";
+
     // Draw canvas
     drawBox(width, height);
     bombGenerator();
@@ -81,8 +84,8 @@ function showBomb() {
  * Actions when the game is finished
  */
 function endGame(state){
-    if (state) result.innerText = 'YOU WON!';
-    else result.innerText = 'YOU LOST!';
+    if (state) { result.innerText = 'YOU WON!'; result.style.color = "#14eb6a";}
+    else { result.innerText = 'YOU LOST!'; result.style.color = "#ff3300";}
 
     // THIS TO TELL USER THAT THE GAME IS ENDED.
     grid.removeEventListener('click', handleClick);
