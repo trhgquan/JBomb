@@ -1,3 +1,6 @@
+![GitHub top language](https://img.shields.io/github/languages/top/trhgquan/jbomb?style=flat-square)
+![StyleCI](https://github.styleci.io/repos/196590548/shield)
+
 # JBomb
 JBomb - a Minesweeper-like game created with JavaScript (pure) and HTML5 Canvas.
 
