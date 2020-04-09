@@ -121,7 +121,7 @@ function DFS(x, y) {
 
     // Mark as visited
     opened[x][y] = true;
-	setColourByPosition(x, y, noBombColour);
+    setColourByPosition(x, y, noBombColour);
 
     // If this cell has bombs around a.k.a has number,
     // mark as visited and open it, but not DFS all cells nearby.
