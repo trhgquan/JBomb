@@ -1,10 +1,23 @@
 <!--
-Young man, please stop!
-This project is, ironically, so vulnerable.
-I create this project to test my skills in algorithms, particularly Graph Theory.
-For algorithm, bomb.js is what you want to see.
-For Game control, visit control.js.
-For Game canvas aka how to draw the gameboard, visit canvas.js.
++-----------------------------------------------------------------------------------------------+
+|                                                                                               |
+|   ____ _             __  __               ____ _           _  __  __                          |
+|  / ___| |__  _   _  |  \/  | ___  ___    / ___| |__  _   _(_) \ \/ /___   ___  _ __   __ _    |
+| | |   | '_ \| | | | | |\/| |/ _ \/ _ \  | |   | '_ \| | | | |  \  // _ \ / _ \| '_ \ / _` |   |
+| | |___| | | | |_| | | |  | |  __/ (_) | | |___| | | | |_| | |  /  \ (_) | (_) | | | | (_| |   |
+|  \____|_| |_|\__,_| |_|  |_|\___|\___/   \____|_| |_|\__,_|_| /_/\_\___/ \___/|_| |_|\__, |   |
+|                                                                                      |___/    |
+|                                                                                               |
+|> Author.........: @trhgquan (https://github.com/trhgquan)                                     |
+|> ...............: @meadoge  (https://github.com/meadoge)                                      |
++-----------------------------------------------------------------------------------------------+
+|> As a young dump broke script kiddie, hacking always be the first option.                     |
+|> Just be the one you always want to be, don't give up. Happy Coding!                          |
+|> Ben Tre City, April 9th, 2020.                                                               |
+|                                                                                               |
+|> PS: Try Google "SGO48", not because this project is using anything from "SGO48".             |
+|> I'm their fan and using anything I can to support my idols :D                                |
++-----------------------------------------------------------------------------------------------+
 -->
 <!DOCTYPE html>
 <html>
@@ -12,7 +25,6 @@ For Game canvas aka how to draw the gameboard, visit canvas.js.
         <meta charset="utf-8">
         <meta name="description" content="JBomb - a Minesweeper-like game created with JavaScript (pure) and HTML5 Canvas.">
         <title>JBomb</title>
-        <link href="https://fonts.googleapis.com/css?family=Old+Standard+TT&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="src/style.css">
     </head>
     <body>
@@ -22,8 +34,8 @@ For Game canvas aka how to draw the gameboard, visit canvas.js.
         </div>
 
         <div id="setting">
-            Grid size: <input type="text" id="grid_size" value="10">
-            <button type="button" onclick="drawCanvas(); return false;">Play</button>
+            Grid size: <input type="text" id="grid_size" value="5">
+            <button id="playBtn" type="button">Play</button>
         </div>
 
         <div id="grid_size_display"></div>
@@ -39,7 +51,6 @@ For Game canvas aka how to draw the gameboard, visit canvas.js.
             <p>Execute a <code>git clone</code> to clone this project: <code>git clone https://github.com/trhgquan/JBomb.git</code></p>
             <p>View <a href="https://github.com/trhgquan/JBomb" target="_blank">Project site</a> on GitHub.</p>
             <p>GitHub <a href="https://github.com/trhgquan" target="_blank">@trhgquan</a>, <script>document.write((new Date).getFullYear());</script></p>
-            <p><a href="https://www.tranhoangquan.codes" target="_blank">www.tranhoangquan.codes</a></p>
         </div>
     </body>
     <script src="src/canvas.js"></script>

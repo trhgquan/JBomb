@@ -17,14 +17,14 @@ var canvas,
  */
 function drawBox(width, height) {
     // Canvas Initialize
-    canvas = grid.getContext("2d");
+    canvas = grid.getContext('2d');
 
     // These codeblocks generate a (width * height) grid.
     canvas.beginPath();
-    canvas.fillStyle = "white";                 // At the beginning, cell is colored white
+    canvas.fillStyle = 'white';                 // At the beginning, cell is colored white
     canvas.lineWidth = 3;                       // Canvas stroke's width
     canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
-    canvas.font = "20px Old Standard TT red";   // Text font
+    canvas.font = '20px Times';   // Text font
 
     for (let row = 0; row < width; row++) {
         // Declare variables for algorithm
@@ -54,11 +54,11 @@ function drawBox(width, height) {
 
     // Add event for the game:
     // left-click and right-click
-    grid.addEventListener('click', handleClick);
+    grid.addEventListener('click', handleLeftClick);
     grid.addEventListener('contextmenu', handleRightClick);
 
     // Tell the user the grid_size.
-    grid_size_display.innerText = width + " x " + height;
+    grid_size_display.innerText = "Grid size: " + width + " x " + height;
 }
 
 /**
@@ -74,6 +74,6 @@ function setColourByPosition (x, y, colour) {
  * Write a text to a cell [x, y]
  */
 function setTextByPosition (x, y, txt) {
-    canvas.fillStyle = "black";
+    canvas.fillStyle = 'black';
     canvas.fillText(txt, (boxSize * x) + (boxSize / 2.5), (boxSize * y) + (boxSize / 1.75));
 }

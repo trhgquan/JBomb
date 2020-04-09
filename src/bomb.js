@@ -4,7 +4,8 @@ var bombs = [];
 var marked = [];
 
 var gameStarted = false; // This activate the game's clock
-var numberBomb;
+var numberBomb; // Number of bombs generated at the beginning
+var currentBombs; // Number of bombs generated minus user-defused bombs.
 
 /**
  * Generate a random number
@@ -28,11 +29,16 @@ function bombGenerator() {
         numberBomb = generateRandom(maxBomb, minBomb);
     } while (numberBomb <= minBomb || numberBomb >= maxBomb);
 
-    result.innerText = "Bombs: " + numberBomb;
+    // Update number of bombs currently and display it
+    currentBombs = numberBomb;
+    result.innerText = "Bombs left: " + currentBombs;
 
     let bombX, bombY, inner = result.innerText;
 
     for (let i = 0; i < numberBomb; ++i) {
+        // Set the bomb at (bombX, bombY) position
+        // if there is no bomb set at that position
+        // and the position is still inside the grid.
         do {
             bombX = generateRandom(Number(width), 0);
             bombY = generateRandom(Number(height), 0);
@@ -54,6 +60,7 @@ function numberGenerator() {
 
 /**
  * Count number of bombs around a cell.
+ * (Using DFS, of course).
  */
 function countBombs(x, y) {
     let count = 0;
