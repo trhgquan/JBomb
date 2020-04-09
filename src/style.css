@@ -1,11 +1,15 @@
 body {
-    font-family: 'Old Standard TT', serif;
+    font-family: Arial; /* Many fonts tried but Arial is best for eyes  */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     min-height: 100vh;
+}
+
+div {
+    margin-top: 10px;
 }
 
 #authorZone {

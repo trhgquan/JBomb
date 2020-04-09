@@ -1,10 +1,18 @@
 var gameClockInterval;
 
 /**
+ * playBtn click handling, this draw the game canvas and start the game
+ */
+document.getElementById('playBtn').addEventListener('click', function(e) {
+    drawCanvas();
+    e.preventDefault;
+});
+
+/**
  * Handle left click
  * (click a cell)
  */
-function handleClick(e) {
+function handleLeftClick(e) {
     // If there is not a bomb
     // Get grid's position
     let x = Math.floor(e.offsetX / boxSize);
@@ -32,14 +40,28 @@ function handleRightClick(e) {
 
     if (!opened[x][y] && !marked[x][y]) {
         // Mark that position has a bomb.
-        setColourByPosition(x, y, "orange");
+        setColourByPosition(x, y, 'orange');
         // Mark that position has been marked.
         marked[x][y] = true;
-        if (finished()) endGame(true);
+        // Decrease number of bombs left
+        --currentBombs;
+
+        // Check if the game is finished
+        if (finished()) {
+            endGame(true);
+            return true;
+        }
     } else if (marked[x][y] && !opened[x][y]) {
-        setColourByPosition(x, y, "white");
+        // Unmark that position
+        setColourByPosition(x, y, 'white');
         marked[x][y] = false;
+
+        // Increase number of bombs left
+        ++numberBomb;
     }
+
+    // Update number of bombs left.
+    result.innerText = 'Bombs left: ' + currentBombs;
 
     // Stop the context menu
     e.preventDefault();
@@ -47,18 +69,24 @@ function handleRightClick(e) {
 }
 
 /**
- * Handle the "Play" button click
+ * Handle the 'Play' button click
  */
 function drawCanvas() {
     width  = grid_size.value;
     height = grid_size.value;
+
+    // Break the process if the size is invalid.
+    if (width < 5) {
+        result.innerText = 'Grid size is invalid';   
+        return false;
+    }
 
     // Resize the canvas html element
     grid.height = height * boxSize;
     grid.width  = width * boxSize;
 
     // Re-colour the result box
-    result.style.color = "#000000";
+    result.style.color = '#000000';
 
     // Draw canvas
     drawBox(width, height);
@@ -77,7 +105,7 @@ function drawCanvas() {
 function showBomb() {
     for (let i = 0; i < width; ++i)
         for (let j = 0; j < height; ++j)
-            if (bombs[i][j])  setColourByPosition(i, j, "red");
+            if (bombs[i][j]) setColourByPosition(i, j, 'red');
 }
 
 /**
@@ -86,14 +114,14 @@ function showBomb() {
 function endGame(state){
     if (state) {
         result.innerText = 'YOU WON!';
-        result.style.color = "#14eb6a";
+        result.style.color = '#14eb6a';
     } else {
         result.innerText = 'YOU LOST!';
-        result.style.color = "#ff3300";
+        result.style.color = '#ff3300';
     }
 
     // THIS TO TELL USER THAT THE GAME IS ENDED.
-    grid.removeEventListener('click', handleClick);
+    grid.removeEventListener('click', handleLeftClick);
     grid.removeEventListener('contextmenu', handleRightClick);
 
     // Reset the clock
@@ -105,10 +133,12 @@ function endGame(state){
  * Return true if no cell is uncheck, bomb cells are checked
  */
 function finished() {
-    for (let i = 0; i < width; ++i)
-        for (let j = 0; j < height; ++j)
+    for (let i = 0; i < width; ++i){
+        for (let j = 0; j < height; ++j){
             if ((!bombs[i][j] && opened[i][j]) || (bombs[i][j] && marked[i][j])) continue;
             else return false;
+        }
+    }
     return true;
 }
 
