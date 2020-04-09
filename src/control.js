@@ -57,7 +57,7 @@ function handleRightClick(e) {
         marked[x][y] = false;
 
         // Increase number of bombs left
-        ++numberBomb;
+        ++currentBombs;
     }
 
     // Update number of bombs left.
