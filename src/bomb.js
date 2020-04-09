@@ -31,7 +31,8 @@ function bombGenerator() {
 
     // Update number of bombs currently and display it
     currentBombs = numberBomb;
-    result.innerText = "Bombs left: " + currentBombs;
+
+    result.innerText = 'Bombs left: ' + currentBombs;
 
     let bombX, bombY, inner = result.innerText;
 
@@ -56,6 +57,21 @@ function numberGenerator() {
     for (let i = 0; i < width; i++)
         for (let j = 0; j < height; j++)
     		countBombs(i, j);
+}
+
+
+/**
+ * Check if the game is ended
+ * The game only end when all bombs are checked and all cells are opened.
+ */
+function finished() {
+    for (let i = 0; i < width; ++i){
+        for (let j = 0; j < height; ++j){
+            if ((!bombs[i][j] && opened[i][j]) || (bombs[i][j] && marked[i][j])) continue;
+            else return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -105,7 +121,7 @@ function DFS(x, y) {
 
     // Mark as visited
     opened[x][y] = true;
-	setColourByPosition(x, y, "green");
+	setColourByPosition(x, y, noBombColour);
 
     // If this cell has bombs around a.k.a has number,
     // mark as visited and open it, but not DFS all cells nearby.
