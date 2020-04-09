@@ -9,14 +9,14 @@ var currentBombs; // Number of bombs generated minus user-defused bombs.
 
 /**
  * Generate a random number
- * between "max" and "min"
+ * between "min" and "max"
  * 
- * @param {number} max
  * @param {number} min
+ * @param {number} max
  * 
- * @return {number} Randomised number, between [max, min]
+ * @return {number} Randomised number, between [min, max]
  */
-function generateRandom(max, min) {
+function generateRandom(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
@@ -31,7 +31,7 @@ function bombGenerator() {
     // Number of bombs must larger than grid's width
     // and smaller than grid's size.
     do {
-        numberBomb = generateRandom(maxBomb, minBomb);
+        numberBomb = generateRandom(minBomb, maxBomb);
     } while (numberBomb <= minBomb || numberBomb >= maxBomb);
 
     // Update number of bombs currently and display it
@@ -46,8 +46,8 @@ function bombGenerator() {
         // if there is no bomb set at that position
         // and the position is still inside the grid.
         do {
-            bombX = generateRandom(Number(width), 0);
-            bombY = generateRandom(Number(height), 0);
+            bombX = generateRandom(0, Number(width));
+            bombY = generateRandom(0, Number(height));
         } while (bombX > width || bombY > height || bombs[bombX][bombY]);
 
         // Set the position of the bomb

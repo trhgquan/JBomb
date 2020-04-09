@@ -37,7 +37,7 @@ function drawBox(width, height) {
     canvas.fillStyle = unmarkColour;            // At the beginning, cell is colored white
     canvas.lineWidth = 3;                       // Canvas stroke's width
     canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
-    canvas.font = '20px Times';   // Text font
+    canvas.font = '20px Times';                 // Text font
 
     for (let row = 0; row < width; row++) {
         // Declare variables for algorithm
