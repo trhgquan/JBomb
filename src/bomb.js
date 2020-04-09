@@ -10,6 +10,11 @@ var currentBombs; // Number of bombs generated minus user-defused bombs.
 /**
  * Generate a random number
  * between "max" and "min"
+ * 
+ * @param {number} max
+ * @param {number} min
+ * 
+ * @return {number} Randomised number, between [max, min]
  */
 function generateRandom(max, min) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -63,6 +68,8 @@ function numberGenerator() {
 /**
  * Check if the game is ended
  * The game only end when all bombs are checked and all cells are opened.
+ * 
+ * @return {boolean}
  */
 function finished() {
     for (let i = 0; i < width; ++i){
@@ -77,6 +84,9 @@ function finished() {
 /**
  * Count number of bombs around a cell.
  * (Using DFS, of course).
+ * 
+ * @param {number} x
+ * @param {number} y
  */
 function countBombs(x, y) {
     let count = 0;
@@ -113,11 +123,14 @@ function countBombs(x, y) {
  * A simple Depth-first-search algorithm
  * Search the graph, open items have no number
  * Colour items have number, NOT open them.
+ * 
+ * @param {number} x
+ * @param {number} y
  */
 function DFS(x, y) {
     // If this is a bomb, this is marked or this has been opened
     // then leave it alone.
-    if (bombs[x][y] || marked[x][y] || opened[x][y]) return false;
+    if (bombs[x][y] || marked[x][y] || opened[x][y]) return;
 
     // Mark as visited
     opened[x][y] = true;
@@ -127,7 +140,7 @@ function DFS(x, y) {
     // mark as visited and open it, but not DFS all cells nearby.
     if (cells[x][y] != 0) {
         setTextByPosition(x, y, cells[x][y]);
-        return false;
+        return;
     }
 
     // Check other nearby cells, if it does not contains a bomb
