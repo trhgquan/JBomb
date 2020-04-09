@@ -6,6 +6,16 @@ const result = document.getElementById('result'),
       grid_size_display = document.getElementById('grid_size_display'),
       grid = document.getElementById('grid'),
       clock = document.getElementById('clock');
+      playBtn = document.getElementById('playBtn');
+
+/**
+ * Game Canvas constants, colour mostly
+ */
+const unmarkColour  = '#808080',
+      markedColour  = '#ffa500',
+      noBombColour  = '#53d16e',
+      hasBombColour = '#f00000';
+
 
 // Some elements, canvas art mostly.
 var canvas,
@@ -21,7 +31,7 @@ function drawBox(width, height) {
 
     // These codeblocks generate a (width * height) grid.
     canvas.beginPath();
-    canvas.fillStyle = 'white';                 // At the beginning, cell is colored white
+    canvas.fillStyle = unmarkColour;            // At the beginning, cell is colored white
     canvas.lineWidth = 3;                       // Canvas stroke's width
     canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
     canvas.font = '20px Times';   // Text font
@@ -58,7 +68,7 @@ function drawBox(width, height) {
     grid.addEventListener('contextmenu', handleRightClick);
 
     // Tell the user the grid_size.
-    grid_size_display.innerText = "Grid size: " + width + " x " + height;
+    grid_size_display.innerText = 'Grid size: ' + width + ' x ' + height;
 }
 
 /**
