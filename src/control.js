@@ -77,7 +77,7 @@ function drawCanvas() {
 
     // Break the process if the size is invalid.
     if (width < 5) {
-        result.innerText = 'Grid size is invalid';
+        result.innerText = 'Grid size is invalid';   
         return false;
     }
 

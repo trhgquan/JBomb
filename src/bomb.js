@@ -31,6 +31,7 @@ function bombGenerator() {
 
     // Update number of bombs currently and display it
     currentBombs = numberBomb;
+
     result.innerText = 'Bombs left: ' + currentBombs;
 
     let bombX, bombY, inner = result.innerText;
