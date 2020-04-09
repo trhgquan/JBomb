@@ -5,7 +5,7 @@ const result = document.getElementById('result'),
       grid_size = document.getElementById('grid_size'),
       grid_size_display = document.getElementById('grid_size_display'),
       grid = document.getElementById('grid'),
-      clock = document.getElementById('clock');
+      clock = document.getElementById('clock'),
       playBtn = document.getElementById('playBtn');
 
 /**
