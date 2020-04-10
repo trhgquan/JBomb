@@ -11,6 +11,8 @@ playBtn.addEventListener('click', function(e) {
 /**
  * Handle left click
  * (click a cell)
+ * 
+ * @param {Object} e Event Object
  */
 function handleLeftClick(e) {
     // If there is not a bomb
@@ -32,6 +34,8 @@ function handleLeftClick(e) {
 /**
  * Handle right click
  * (Mark a cell as bomb)
+ * 
+ * @param {Object} e Event Object
  */
 function handleRightClick(e) {
     // Get grid's position
@@ -49,7 +53,7 @@ function handleRightClick(e) {
         // Check if the game is finished
         if (finished()) {
             endGame(true);
-            return true;
+            return;
         }
     } else if (marked[x][y] && !opened[x][y]) {
         // Unmark that position
@@ -65,7 +69,7 @@ function handleRightClick(e) {
 
     // Stop the context menu
     e.preventDefault();
-    return false;
+    return;
 }
 
 /**
@@ -78,7 +82,7 @@ function drawCanvas() {
     // Break the process if the size is invalid.
     if (width < 5) {
         result.innerText = 'Grid size is invalid';   
-        return false;
+        return;
     }
 
     // Resize the canvas html element
@@ -110,6 +114,8 @@ function showBomb() {
 
 /**
  * Actions when the game is finished
+ * 
+ * @param {boolean} state True if user won, False if user lost.
  */
 function endGame(state){
     if (state) {

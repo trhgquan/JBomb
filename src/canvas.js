@@ -5,7 +5,7 @@ const result = document.getElementById('result'),
       grid_size = document.getElementById('grid_size'),
       grid_size_display = document.getElementById('grid_size_display'),
       grid = document.getElementById('grid'),
-      clock = document.getElementById('clock');
+      clock = document.getElementById('clock'),
       playBtn = document.getElementById('playBtn');
 
 /**
@@ -23,7 +23,10 @@ var canvas,
     width, height;
 
 /**
- * Draw a grid
+ * Draw a grid.
+ * 
+ * @param {number} width
+ * @param {number} height
  */
 function drawBox(width, height) {
     // Canvas Initialize
@@ -34,7 +37,7 @@ function drawBox(width, height) {
     canvas.fillStyle = unmarkColour;            // At the beginning, cell is colored white
     canvas.lineWidth = 3;                       // Canvas stroke's width
     canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
-    canvas.font = '20px Times';   // Text font
+    canvas.font = '20px Times';                 // Text font
 
     for (let row = 0; row < width; row++) {
         // Declare variables for algorithm
@@ -72,8 +75,11 @@ function drawBox(width, height) {
 }
 
 /**
- * Color a cell
- * (by geometry position method)
+ * Color a cell (by geometry position method).
+ * 
+ * @param {number} x
+ * @param {number} y
+ * @param {string} colour Colour string
  */
 function setColourByPosition (x, y, colour) {
     canvas.fillStyle = colour;
@@ -82,6 +88,10 @@ function setColourByPosition (x, y, colour) {
 
 /**
  * Write a text to a cell [x, y]
+ * 
+ * @param {number} x
+ * @param {number} y
+ * @param {string} txt
  */
 function setTextByPosition (x, y, txt) {
     canvas.fillStyle = 'black';
