@@ -2,7 +2,7 @@
 ![StyleCI](https://github.styleci.io/repos/196590548/shield)
 
 # About JBomb
-JBomb - a Minesweeper-like game created with Vanilla JavaScript (pure JavaScript) and HTML5 Canvas.
+JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.
 
 # Install
 Execute a `git clone`:
