@@ -12,7 +12,7 @@ playBtn.addEventListener('click', function(e) {
  * Handle left click
  * (click a cell)
  * 
- * @param {Object} e Event Object
+ * @param {EventListenerObject} e Event Listener Object
  */
 function handleLeftClick(e) {
     // If there is not a bomb
@@ -35,7 +35,7 @@ function handleLeftClick(e) {
  * Handle right click
  * (Mark a cell as bomb)
  * 
- * @param {Object} e Event Object
+ * @param {EventListenerObject} e Event Object
  */
 function handleRightClick(e) {
     // Get grid's position

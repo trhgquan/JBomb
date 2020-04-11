@@ -25,8 +25,8 @@ var canvas,
 /**
  * Draw a grid.
  * 
- * @param {number} width
- * @param {number} height
+ * @param {number} width  width of the grid
+ * @param {number} height height of the grid
  */
 function drawBox(width, height) {
     // Canvas Initialize
@@ -77,8 +77,8 @@ function drawBox(width, height) {
 /**
  * Color a cell (by geometry position method).
  * 
- * @param {number} x
- * @param {number} y
+ * @param {number} x      x-position
+ * @param {number} y      y-position
  * @param {string} colour Colour string
  */
 function setColourByPosition (x, y, colour) {
@@ -89,9 +89,9 @@ function setColourByPosition (x, y, colour) {
 /**
  * Write a text to a cell [x, y]
  * 
- * @param {number} x
- * @param {number} y
- * @param {string} txt
+ * @param {number} x   x-position
+ * @param {number} y   y-position
+ * @param {string} txt text
  */
 function setTextByPosition (x, y, txt) {
     canvas.fillStyle = 'black';
