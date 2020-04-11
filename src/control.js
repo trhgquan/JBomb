@@ -105,6 +105,7 @@ function drawCanvas() {
 
 /**
  * Show locations of the bombs
+ * (After finished)
  */
 function showBomb() {
     for (let i = 0; i < width; ++i)

@@ -61,7 +61,7 @@ function bombGenerator() {
 function numberGenerator() {
     for (let i = 0; i < width; i++)
         for (let j = 0; j < height; j++)
-    		countBombs(i, j);
+            countBombs(i, j);
 }
 
 /**
