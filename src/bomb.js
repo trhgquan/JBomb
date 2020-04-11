@@ -4,15 +4,15 @@ var bombs = [];
 var marked = [];
 
 var gameStarted = false; // This activate the game's clock
-var numberBomb; // Number of bombs generated at the beginning
-var currentBombs; // Number of bombs generated minus user-defused bombs.
+var numberBomb;          // Number of bombs generated at the beginning
+var currentBombs;        // Number of bombs generated minus user-defused bombs.
 
 /**
  * Generate a random number
  * between "min" and "max"
  * 
- * @param {number} min
- * @param {number} max
+ * @param {number} min minimum
+ * @param {number} max maximum
  * 
  * @return {number} Randomised number, between [min, max]
  */
@@ -61,15 +61,14 @@ function bombGenerator() {
 function numberGenerator() {
     for (let i = 0; i < width; i++)
         for (let j = 0; j < height; j++)
-    		countBombs(i, j);
+            countBombs(i, j);
 }
-
 
 /**
  * Check if the game is ended
  * The game only end when all bombs are checked and all cells are opened.
  * 
- * @return {boolean}
+ * @return {boolean} True if the game is finished, False otherwise.
  */
 function finished() {
     for (let i = 0; i < width; ++i){
@@ -85,8 +84,8 @@ function finished() {
  * Count number of bombs around a cell.
  * (Using DFS, of course).
  * 
- * @param {number} x
- * @param {number} y
+ * @param {number} x x-position
+ * @param {number} y y-position
  */
 function countBombs(x, y) {
     let count = 0;
@@ -124,8 +123,8 @@ function countBombs(x, y) {
  * Search the graph, open items have no number
  * Colour items have number, NOT open them.
  * 
- * @param {number} x
- * @param {number} y
+ * @param {number} x x-position
+ * @param {number} y y-position
  */
 function DFS(x, y) {
     // If this is a bomb, this is marked or this has been opened
