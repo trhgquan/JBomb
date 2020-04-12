@@ -124,11 +124,12 @@ function showBomb() {
  */
 function endGame(state){
     // Total bombs defused is written to a node
-    let bombDefused = document.createTextNode('Bombs defused: ' + countBombsDefused());
+    let bombsDefused = document.createTextNode('Bombs defused: ' + countBombsDefused());
 
-    result.innerText = (state) ? 'Status : WON / ' : 'Status : LOST / ';
+    // Update text, winning status and bombs defused.
+    result.innerText = (state) ? 'Status: WON / ' : 'Status: LOST / ';
     result.style.color = (state) ? noBombColour : hasBombColour;
-    result.appendChild(bombDefused);
+    result.appendChild(bombsDefused);
     
     // THIS TO TELL USER THAT THE GAME IS ENDED.
     grid.removeEventListener('click', handleLeftClick);
