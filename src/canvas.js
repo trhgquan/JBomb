@@ -1,12 +1,12 @@
 /**
  * Global constants, DOM Elements mostly.
  */
-const result = document.getElementById('result'),
-      grid_size = document.getElementById('grid_size'),
-      grid_size_display = document.getElementById('grid_size_display'),
-      grid = document.getElementById('grid'),
-      clock = document.getElementById('clock'),
-      playBtn = document.getElementById('playBtn');
+const result            = document.getElementById('result'),            // Result is updated and write to this element
+      grid_size         = document.getElementById('grid_size'),         // Grid size get from this element
+      grid_size_display = document.getElementById('grid_size_display'), // Grid size will be display here
+      grid              = document.getElementById('grid'),              // Grid will be draw here
+      clock             = document.getElementById('clock'),             // Clock will be draw here
+      playBtn           = document.getElementById('playBtn');           // Play button is here
 
 /**
  * Game Canvas constants, colour mostly
@@ -18,9 +18,9 @@ const unmarkColour  = '#808080',
 
 
 // Some elements, canvas art mostly.
-var canvas,
-    boxSize = 40,
-    width, height;
+var canvas;         // Canvas drawing variable
+var width, height;  // Canvas width and height
+var boxSize = 40;   // Canvas's box size
 
 /**
  * Draw a grid.
@@ -34,14 +34,14 @@ function drawBox(width, height) {
 
     // These codeblocks generate a (width * height) grid.
     canvas.beginPath();
-    canvas.fillStyle = unmarkColour;            // At the beginning, cell is colored white
+    canvas.fillStyle = unmarkColour;            // At the beginning, cell is colored unmarkColour
     canvas.lineWidth = 3;                       // Canvas stroke's width
     canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
     canvas.font = '20px Times';                 // Text font
 
     for (let row = 0; row < width; row++) {
         // Declare variables for algorithm
-        // a.k.a declare a 2D array in Js.
+        // a.k.a declare a 2D array in JS.
         cells[row] = [];
         opened[row] = [];
         bombs[row] = [];
