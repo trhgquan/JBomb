@@ -1,10 +1,10 @@
-var cells = [];
-var opened = [];
-var bombs = [];
-var marked = [];
+var cells  = [], // This to count bombs around a cell.
+    opened = [], // This to mark that cell is opened.
+    bombs  = [], // This to mark that cell has a bomb.
+    marked = []; // This to mark that cell is marked.
 
-var gameStarted = false; // This activate the game's clock
-var numberBomb;          // Number of bombs generated at the beginning
+var gameStarted = false; // This activate the game's clock.
+var numberBomb;          // Number of bombs generated at the beginning.
 var currentBombs;        // Number of bombs generated minus user-defused bombs.
 
 /**
@@ -58,10 +58,24 @@ function bombGenerator() {
 /**
  * Count number of bombs around the grid (a grid consist of many cells).
  */
-function numberGenerator() {
+function countBombsInGraph() {
     for (let i = 0; i < width; i++)
         for (let j = 0; j < height; j++)
             countBombs(i, j);
+}
+
+/**
+ * Count number of bombs defused
+ * Loop width * height times but only when the game is ended
+ * 
+ * @return {number} Number of bombs defused
+ */
+function countBombsDefused() {
+    let defusedBombs = 0;
+    for (let i = 0; i < width; ++i)
+        for (let j = 0; j < height; ++j)
+            if (bombs[i][j] && marked[i][j]) ++defusedBombs;
+    return defusedBombs;
 }
 
 /**

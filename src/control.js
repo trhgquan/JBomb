@@ -1,4 +1,4 @@
-var gameClockInterval;
+var gameClockInterval; // Clock interval variable
 
 /**
  * playBtn click handling, this draw the game canvas and start the game
@@ -94,8 +94,12 @@ function drawCanvas() {
 
     // Draw canvas
     drawBox(width, height);
+
+    // Generate bombs
     bombGenerator();
-    numberGenerator();
+
+    // Count bombs in the graph
+    countBombsInGraph();
 
     // If the game has started already,
     // and the player restart it then restart the clock,
@@ -119,14 +123,13 @@ function showBomb() {
  * @param {boolean} state True if user won, False if user lost.
  */
 function endGame(state){
-    if (state) {
-        result.innerText = 'YOU WON!';
-        result.style.color = noBombColour;
-    } else {
-        result.innerText = 'YOU LOST!';
-        result.style.color = hasBombColour;
-    }
+    // Total bombs defused is written to a node
+    let bombDefused = document.createTextNode('Bombs defused: ' + countBombsDefused());
 
+    result.innerText = (state) ? 'Status : WON / ' : 'Status : LOST / ';
+    result.style.color = (state) ? noBombColour : hasBombColour;
+    result.appendChild(bombDefused);
+    
     // THIS TO TELL USER THAT THE GAME IS ENDED.
     grid.removeEventListener('click', handleLeftClick);
     grid.removeEventListener('contextmenu', handleRightClick);
