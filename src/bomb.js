@@ -1,7 +1,9 @@
-var cells  = [], // This to count bombs around a cell.
-    opened = [], // This to mark that cell is opened.
-    bombs  = [], // This to mark that cell has a bomb.
-    marked = []; // This to mark that cell is marked.
+var cells    = [], // This to count bombs around a cell.
+    opened   = [], // This to mark that cell is opened.
+    bombs    = [], // This to mark that cell has a bomb.
+    marked   = [], // This to mark that cell is marked.
+    bombList = []; // This contains positon holding bombs;
+                   // The bomb list is used to prevent 2-for-loops.
 
 var gameStarted = false; // This activate the game's clock.
 var numberBomb;          // Number of bombs generated at the beginning.
@@ -18,6 +20,20 @@ var currentBombs;        // Number of bombs generated minus user-defused bombs.
  */
 function generateRandom(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+/**
+ * This function will initialise variables, generate bombs and count them.
+ */
+function initialise() {
+    // Reset all variables
+    resetVariables();
+
+    // Generate bombs
+    bombGenerator();
+
+    // Count bombs in the graph
+    countBombsInGraph();
 }
 
 /**
@@ -52,6 +68,9 @@ function bombGenerator() {
 
         // Set the position of the bomb
         bombs[bombX][bombY] = true;
+
+        // Add bomb to the list
+        bombList.push({bombX, bombY});
     }
 }
 
@@ -72,9 +91,14 @@ function countBombsInGraph() {
  */
 function countBombsDefused() {
     let defusedBombs = 0;
-    for (let i = 0; i < width; ++i)
-        for (let j = 0; j < height; ++j)
-            if (bombs[i][j] && marked[i][j]) ++defusedBombs;
+    
+    for (let i = 0; i < numberBomb; ++i) {
+        let x = bombList[i].bombX;
+        let y = bombList[i].bombY;
+
+        if (bombs[x][y] && marked[x][y]) ++defusedBombs;
+    }
+
     return defusedBombs;
 }
 
@@ -170,4 +194,14 @@ function DFS(x, y) {
         y - 1 >= 0) DFS(x + 1, y - 1);
     if (x - 1 >= 0 &&
         y + 1 < height) DFS(x - 1, y + 1);
+}
+
+/**
+ * Reset all variables after game finished
+ */
+function resetVariables() {
+    // Only reset if that variable has value.
+    if (bombList.length > 0){
+        bombList.length = 0;
+    }
 }

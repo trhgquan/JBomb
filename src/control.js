@@ -95,11 +95,8 @@ function drawCanvas() {
     // Draw canvas
     drawBox(width, height);
 
-    // Generate bombs
-    bombGenerator();
-
-    // Count bombs in the graph
-    countBombsInGraph();
+    // Initialise
+    initialise();
 
     // If the game has started already,
     // and the player restart it then restart the clock,
@@ -112,9 +109,12 @@ function drawCanvas() {
  * (After finished)
  */
 function showBomb() {
-    for (let i = 0; i < width; ++i)
-        for (let j = 0; j < height; ++j)
-            if (bombs[i][j]) setColourByPosition(i, j, hasBombColour);
+    for (let i = 0; i < numberBomb; ++i) {
+        let x = bombList[i].bombX;
+        let y = bombList[i].bombY;
+
+        setColourByPosition(x, y, hasBombColour);
+    }
 }
 
 /**
