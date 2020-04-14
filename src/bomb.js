@@ -78,14 +78,19 @@ function bombGenerator() {
  * Count number of bombs around the grid (a grid consist of many cells).
  */
 function countBombsInGraph() {
-    for (let i = 0; i < width; i++)
-        for (let j = 0; j < height; j++)
-            countBombs(i, j);
+    for (let i = 0; i < numberBomb; ++i) {
+        // Get the position of the bomb
+        let x = bombList[i].bombX;
+        let y = bombList[i].bombY;
+
+        // Increase count of adjacent cells.
+        countBombs(x, y);
+    }
 }
 
 /**
  * Count number of bombs defused
- * Loop width * height times but only when the game is ended
+ * Loop numberBomb times, only when the game is ended / player is dead.
  * 
  * @return {number} Number of bombs defused
  */
@@ -119,41 +124,33 @@ function finished() {
 }
 
 /**
- * Count number of bombs around a cell.
+ * Assuming [x, y] is a bomb, we increase counting of all adjacent cells.
  * (Using DFS, of course).
  * 
  * @param {number} x x-position
  * @param {number} y y-position
  */
 function countBombs(x, y) {
-    let count = 0;
-
-    // If that cell is not a bomb.
-    if (!bombs[x][y]) {
-        if (x + 1 < width &&
-            bombs[x + 1][y]) count++;
-        if (x - 1 >= 0 &&
-            bombs[x - 1][y]) count++;
-        if (y + 1 < height &&
-            bombs[x][y + 1]) count++;
-        if (y - 1 >= 0 &&
-            bombs[x][y - 1]) count++;
-        if (x + 1 < width &&
-            y + 1 < height &&
-            bombs[x + 1][y + 1]) count++;
-        if (x - 1 >= 0 &&
-            y - 1 >= 0 &&
-            bombs[x - 1][y - 1]) count++;
-        if (x + 1 < width &&
-            y - 1 >= 0 &&
-            bombs[x + 1][y - 1]) count++;
-        if (x - 1 >= 0 &&
-            y + 1 < height &&
-            bombs[x - 1][y + 1]) count++;
-    }
-
-    // Cell number = count.
-    cells[x][y] = count;
+    if (x + 1 < width &&
+        !bombs[x + 1][y]) ++cells[x + 1][y];
+    if (x - 1 >= 0 &&
+        !bombs[x - 1][y]) ++cells[x - 1][y];
+    if (y + 1 < height &&
+        !bombs[x][y + 1]) ++cells[x][y + 1];
+    if (y - 1 >= 0 &&
+        !bombs[x][y - 1]) ++cells[x][y - 1];
+    if (x + 1 < width &&
+        y + 1 < height &&
+        !bombs[x + 1][y + 1]) ++cells[x + 1][y + 1];
+    if (x - 1 >= 0 &&
+        y - 1 >= 0 &&
+        !bombs[x - 1][y - 1]) ++cells[x - 1][y - 1];
+    if (x + 1 < width &&
+        y - 1 >= 0 &&
+        !bombs[x + 1][y - 1]) ++cells[x + 1][y - 1];
+    if (x - 1 >= 0 &&
+        y + 1 < height &&
+        !bombs[x - 1][y + 1]) ++cells[x - 1][y + 1];
 }
 
 /**
