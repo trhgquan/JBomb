@@ -22,7 +22,7 @@ function handleLeftClick(e) {
 
     // Click that element
     if (!bombs[x][y] && !marked[x][y]) {
-        DFS(x, y);
+        openSafeCells(x, y);
         if (finished()) endGame(true);
     } else if (bombs[x][y] && !marked[x][y]) {
         // Show locations of the bombs.

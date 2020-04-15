@@ -109,18 +109,21 @@ function countBombsDefused() {
 
 /**
  * Check if the game is ended
- * The game only end when all bombs are checked and all cells are opened.
+ * The game only end when all bombs are checked and no extra cells checked.
  * 
  * @return {boolean} True if the game is finished, False otherwise.
  */
 function finished() {
-    for (let i = 0; i < width; ++i){
-        for (let j = 0; j < height; ++j){
-            if ((!bombs[i][j] && opened[i][j]) || (bombs[i][j] && marked[i][j])) continue;
-            else return false;
-        }
+    // Check if all bombs defused
+    for (let i = 0; i < numberBomb; ++i) {
+        let x = bombList[i].bombX;
+        let y = bombList[i].bombY;
+
+        if (!marked[x][y]) return false;
     }
-    return true;
+
+    // The game only end if all bombs defused and no extra cells marked.
+    return (currentBombs === 0);
 }
 
 /**
@@ -161,7 +164,7 @@ function countBombs(x, y) {
  * @param {number} x x-position
  * @param {number} y y-position
  */
-function DFS(x, y) {
+function openSafeCells(x, y) {
     // If this is a bomb, this is marked or this has been opened
     // then leave it alone.
     if (bombs[x][y] || marked[x][y] || opened[x][y]) return;
@@ -179,18 +182,18 @@ function DFS(x, y) {
 
     // Check other nearby cells, if it does not contains a bomb
     // then open it.
-    if (x + 1 < width) DFS(x + 1, y);
-    if (x - 1 >= 0) DFS(x - 1, y);
-    if (y + 1 < height) DFS(x, y + 1);
-    if (y - 1 >= 0) DFS(x, y - 1);
+    if (x + 1 < width) openSafeCells(x + 1, y);
+    if (x - 1 >= 0) openSafeCells(x - 1, y);
+    if (y + 1 < height) openSafeCells(x, y + 1);
+    if (y - 1 >= 0) openSafeCells(x, y - 1);
     if (x + 1 < width &&
-        y + 1 < height) DFS(x + 1, y + 1);
+        y + 1 < height) openSafeCells(x + 1, y + 1);
     if (x - 1 >= 0 &&
-        y - 1 >= 0) DFS(x - 1, y - 1);
+        y - 1 >= 0) openSafeCells(x - 1, y - 1);
     if (x + 1 < width &&
-        y - 1 >= 0) DFS(x + 1, y - 1);
+        y - 1 >= 0) openSafeCells(x + 1, y - 1);
     if (x - 1 >= 0 &&
-        y + 1 < height) DFS(x - 1, y + 1);
+        y + 1 < height) openSafeCells(x - 1, y + 1);
 }
 
 /**
