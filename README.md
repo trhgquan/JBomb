@@ -15,7 +15,7 @@ Execute a `git clone`:
 # Author
 The Original Chú Mèo Chui Xoong - [@trhgquan](https://github.com/trhgquan)
 
-Also Chú Mèo Chui Xoong, but stronger - [@meadoge](https://github.com/trhgquan)
+Also Chú Mèo Chui Xoong, but stronger - [@meadoge](https://github.com/meadoge)
 
 # License
 JBomb is licensed under [The MIT License](https://github.com/trhgquan/JBomb/blob/master/LICENSE)

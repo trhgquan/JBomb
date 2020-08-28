@@ -53,6 +53,20 @@ function generateRandom(min, max) {
 }
 
 /**
+ * This function will initialise variables, generate bombs and count them.
+ */
+function initialise() {
+    // Reset all variables
+    resetVariables();
+
+    // Generate bombs
+    bombGenerator();
+
+    // Count bombs in the graph
+    countBombsInGraph();
+}
+
+/**
  * Generate bombs
  */
 function bombGenerator() {
@@ -95,9 +109,14 @@ function bombGenerator() {
  * Count number of bombs around the grid (a grid consist of many cells).
  */
 function countBombsInGraph() {
-    for (let i = 0; i < width; i++)
-        for (let j = 0; j < height; j++)
-            countBombs(i, j);
+    for (let i = 0; i < numberBomb; ++i) {
+        // Get the position of the bomb
+        let x = bombList[i].bombX;
+        let y = bombList[i].bombY;
+
+        // Increase count of adjacent cells.
+        countBombs(x, y);
+    }
 }
 
 /**
@@ -111,7 +130,7 @@ function finished() {
 }
 
 /**
- * Count number of bombs around a cell.
+ * Assuming [x, y] is a bomb, we increase counting of all adjacent cells.
  * (Using DFS, of course).
  *
  * @param {number} x x-position
@@ -142,7 +161,7 @@ function countBombs(x, y) {
  * @param {number} x x-position
  * @param {number} y y-position
  */
-function DFS(x, y) {
+function openSafeCells(x, y) {
     // If this is a bomb, this is marked or this has been opened
     // then leave it alone.
     if (cell[x][y].cannotOpen()) return;
