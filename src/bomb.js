@@ -109,14 +109,9 @@ function bombGenerator() {
  * Count number of bombs around the grid (a grid consist of many cells).
  */
 function countBombsInGraph() {
-    for (let i = 0; i < numberBomb; ++i) {
-        // Get the position of the bomb
-        let x = bombList[i].bombX;
-        let y = bombList[i].bombY;
-
-        // Increase count of adjacent cells.
-        countBombs(x, y);
-    }
+    for (let i = 0; i < width; ++i)
+      for (let j = 0; j < height; ++j)
+        countBombs(i, j);
 }
 
 /**
@@ -185,6 +180,6 @@ function openSafeCells(x, y) {
     for (let i = 0; i < dx.length; ++i) {
       if (x + dx[i] >= 0 && x + dx[i] < width &&
           y + dy[i] >= 0 && y + dy[i] < height)
-            DFS(x + dx[i], y + dy[i]);
+            openSafeCells(x + dx[i], y + dy[i]);
     }
 }

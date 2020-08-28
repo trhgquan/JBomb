@@ -23,7 +23,7 @@ function handleLeftClick(e) {
     // Click that element
     if (!cell[x][y].isBomb && !cell[x][y].isMarked) {
       // DFS all the cells nearby.
-      DFS(x, y);
+      openSafeCells(x, y);
 
       // Finished the game with true flag - user won.
       if (finished()) endGame(true);
