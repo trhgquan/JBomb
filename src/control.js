@@ -4,14 +4,14 @@ var gameClockInterval; // Clock interval variable
  * playBtn click handling, this draw the game canvas and start the game
  */
 playBtn.addEventListener('click', function(e) {
-    drawCanvas();
+    startNewGame();
     e.preventDefault;
 });
 
 /**
  * Handle left click
  * (click a cell)
- * 
+ *
  * @param {EventListenerObject} e Event Listener Object
  */
 function handleLeftClick(e) {
@@ -21,20 +21,26 @@ function handleLeftClick(e) {
     let y = Math.floor(e.offsetY / boxSize);
 
     // Click that element
-    if (!bombs[x][y] && !marked[x][y]) {
-        DFS(x, y);
-        if (finished()) endGame(true);
-    } else if (bombs[x][y] && !marked[x][y]) {
-        // Show locations of the bombs.
-        showBomb();
-        endGame(false);
+    if (!cell[x][y].isBomb && !cell[x][y].isMarked) {
+      // DFS all the cells nearby.
+      DFS(x, y);
+
+      // Finished the game with true flag - user won.
+      if (finished()) endGame(true);
+    }
+    else if (cell[x][y].isBomb && !cell[x][y].isMarked) {
+      // Show locations of the bombs.
+      showBomb();
+
+      // End game with false flag - user lost.
+      endGame(false);
     }
 }
 
 /**
  * Handle right click
  * (Mark a cell as bomb)
- * 
+ *
  * @param {EventListenerObject} e Event Object
  */
 function handleRightClick(e) {
@@ -42,23 +48,34 @@ function handleRightClick(e) {
     let x = Math.floor(e.offsetX / boxSize);
     let y = Math.floor(e.offsetY / boxSize);
 
-    if (!opened[x][y] && !marked[x][y]) {
+    if (cell[x][y].canMark()) {
         // Mark that position has a bomb.
         setColourByPosition(x, y, markedColour);
+
         // Mark that position has been marked.
-        marked[x][y] = true;
+        cell[x][y].isMarked = true;
+
         // Decrease number of bombs left
         --currentBombs;
+
+        // If that cell is a bomb, increse defused.
+        if (cell[x][y].isBomb) ++defusedBombs;
 
         // Check if the game is finished
         if (finished()) {
             endGame(true);
             return;
         }
-    } else if (marked[x][y] && !opened[x][y]) {
+    }
+    else if (cell[x][y].canUnmark()) {
         // Unmark that position
         setColourByPosition(x, y, unmarkColour);
-        marked[x][y] = false;
+
+        // Unmark that position
+        cell[x][y].isMarked = false;
+
+        // If that cell is a bomb, decrease defused.
+        if (cell[x][y].isBomb) --defusedBombs;
 
         // Increase number of bombs left
         ++currentBombs;
@@ -75,13 +92,13 @@ function handleRightClick(e) {
 /**
  * Handle the 'Play' button click
  */
-function drawCanvas() {
+function startNewGame() {
     width  = grid_size.value;
     height = grid_size.value;
 
     // Break the process if the size is invalid.
     if (width < 5) {
-        result.innerText = 'Grid size is invalid';   
+        result.innerText = 'Grid size is invalid';
         return;
     }
 
@@ -114,23 +131,23 @@ function drawCanvas() {
 function showBomb() {
     for (let i = 0; i < width; ++i)
         for (let j = 0; j < height; ++j)
-            if (bombs[i][j]) setColourByPosition(i, j, hasBombColour);
+          if (cell[i][j].isBomb) setColourByPosition(i, j, hasBombColour);
 }
 
 /**
  * Actions when the game is finished
- * 
+ *
  * @param {boolean} state True if user won, False if user lost.
  */
 function endGame(state){
     // Total bombs defused is written to a node
-    let bombsDefused = document.createTextNode('Bombs defused: ' + countBombsDefused());
+    let bombsDefusedElement = document.createTextNode('Bombs defused: ' + defusedBombs);
 
     // Update text, winning status and bombs defused.
     result.innerText = (state) ? 'Status: WON / ' : 'Status: LOST / ';
     result.style.color = (state) ? noBombColour : hasBombColour;
-    result.appendChild(bombsDefused);
-    
+    result.appendChild(bombsDefusedElement);
+
     // THIS TO TELL USER THAT THE GAME IS ENDED.
     grid.removeEventListener('click', handleLeftClick);
     grid.removeEventListener('contextmenu', handleRightClick);
@@ -160,8 +177,9 @@ function clockStart() {
  * Reset the clock
  */
 function clockReset() {
-    // THIS TO STOP THE GAME CLOCK
+    // Stop the game clock.
     clearInterval(gameClockInterval);
+
     // mark as not started so the clock will be reset next time.
     gameStarted = false;
 }

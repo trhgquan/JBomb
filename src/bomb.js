@@ -1,19 +1,51 @@
-var cells  = [], // This to count bombs around a cell.
-    opened = [], // This to mark that cell is opened.
-    bombs  = [], // This to mark that cell has a bomb.
-    marked = []; // This to mark that cell is marked.
+// Object to store a cell's info
+var cellObjects = function(x, y) {
+    this.x = x,
+    this.y = y,
+    this.bombsAround = 0,
+    this.isOpened    = false,
+    this.isMarked    = false,
+    this.isBomb      = false,
 
-var gameStarted = false; // This activate the game's clock.
-var numberBomb;          // Number of bombs generated at the beginning.
-var currentBombs;        // Number of bombs generated minus user-defused bombs.
+    // Method to check if a cell can be open automatically or not.
+    // (using in DFS function).
+    this.cannotOpen = function() {
+        return (this.isOpened || this.isMarked || this.isBomb);
+    };
+
+    // Method to check if a cell can be marked.
+    this.canMark = function() {
+        return (!this.isOpened && !this.isMarked);
+    }
+
+    // Method to check if a cell can be unmarked.
+    this.canUnmark = function() {
+        return (this.isMarked && !this.isOpened);
+    }
+};
+
+// Array of cellObjects.
+var cell = [];
+
+// This activate the game's clock.
+var gameStarted = false;
+
+// Number of bombs generated at the beginning.
+var numberBomb;
+
+// Number of bombs generated minus user-defused bombs.
+var currentBombs;
+
+// Number of bombs defused.
+var defusedBombs;
 
 /**
  * Generate a random number
  * between "min" and "max"
- * 
+ *
  * @param {number} min minimum
  * @param {number} max maximum
- * 
+ *
  * @return {number} Randomised number, between [min, max]
  */
 function generateRandom(min, max) {
@@ -37,6 +69,10 @@ function bombGenerator() {
     // Update number of bombs currently and display it
     currentBombs = numberBomb;
 
+    // Update number of bombs defused, currently 0.
+    defusedBombs = 0;
+
+    // Update result text.
     result.innerText = 'Bombs left: ' + currentBombs;
 
     let bombX, bombY, inner = result.innerText;
@@ -48,10 +84,10 @@ function bombGenerator() {
         do {
             bombX = generateRandom(0, Number(width));
             bombY = generateRandom(0, Number(height));
-        } while (bombX > width || bombY > height || bombs[bombX][bombY]);
+        } while (bombX > width || bombY > height || cell[bombX][bombY].isBomb);
 
         // Set the position of the bomb
-        bombs[bombX][bombY] = true;
+        cell[bombX][bombY].isBomb = true;
     }
 }
 
@@ -65,109 +101,71 @@ function countBombsInGraph() {
 }
 
 /**
- * Count number of bombs defused
- * Loop width * height times but only when the game is ended
- * 
- * @return {number} Number of bombs defused
- */
-function countBombsDefused() {
-    let defusedBombs = 0;
-    for (let i = 0; i < width; ++i)
-        for (let j = 0; j < height; ++j)
-            if (bombs[i][j] && marked[i][j]) ++defusedBombs;
-    return defusedBombs;
-}
-
-/**
  * Check if the game is ended
- * The game only end when all bombs are checked and all cells are opened.
- * 
+ * The game only end when all bombs are marked.
+ *
  * @return {boolean} True if the game is finished, False otherwise.
  */
 function finished() {
-    for (let i = 0; i < width; ++i){
-        for (let j = 0; j < height; ++j){
-            if ((!bombs[i][j] && opened[i][j]) || (bombs[i][j] && marked[i][j])) continue;
-            else return false;
-        }
-    }
-    return true;
+    return numberBomb == defusedBombs;
 }
 
 /**
  * Count number of bombs around a cell.
  * (Using DFS, of course).
- * 
+ *
  * @param {number} x x-position
  * @param {number} y y-position
  */
 function countBombs(x, y) {
     let count = 0;
+    let dx = [1, -1, 0, 0, 1, -1, 1, -1];
+    let dy = [0, 0, 1, -1, 1, -1, -1, 1];
 
     // If that cell is not a bomb.
-    if (!bombs[x][y]) {
-        if (x + 1 < width &&
-            bombs[x + 1][y]) count++;
-        if (x - 1 >= 0 &&
-            bombs[x - 1][y]) count++;
-        if (y + 1 < height &&
-            bombs[x][y + 1]) count++;
-        if (y - 1 >= 0 &&
-            bombs[x][y - 1]) count++;
-        if (x + 1 < width &&
-            y + 1 < height &&
-            bombs[x + 1][y + 1]) count++;
-        if (x - 1 >= 0 &&
-            y - 1 >= 0 &&
-            bombs[x - 1][y - 1]) count++;
-        if (x + 1 < width &&
-            y - 1 >= 0 &&
-            bombs[x + 1][y - 1]) count++;
-        if (x - 1 >= 0 &&
-            y + 1 < height &&
-            bombs[x - 1][y + 1]) count++;
+    if (!cell[x][y].isBomb) {
+        for (let i = 0; i < dx.length; ++i)
+            if (x + dx[i] >= 0 && x + dx[i] < width &&
+                y + dy[i] >= 0 && y + dy[i] < height)
+                if (cell[x + dx[i]][y + dy[i]].isBomb) ++count;
     }
 
     // Cell number = count.
-    cells[x][y] = count;
+    cell[x][y].bombsAround = count;
 }
 
 /**
  * A simple Depth-first-search algorithm
  * Search the graph, open items have no number
  * Colour items have number, NOT open them.
- * 
+ *
  * @param {number} x x-position
  * @param {number} y y-position
  */
 function DFS(x, y) {
     // If this is a bomb, this is marked or this has been opened
     // then leave it alone.
-    if (bombs[x][y] || marked[x][y] || opened[x][y]) return;
+    if (cell[x][y].cannotOpen()) return;
 
     // Mark as visited
-    opened[x][y] = true;
+    cell[x][y].isOpened = true;
     setColourByPosition(x, y, noBombColour);
 
     // If this cell has bombs around a.k.a has number,
     // mark as visited and open it, but not DFS all cells nearby.
-    if (cells[x][y] != 0) {
-        setTextByPosition(x, y, cells[x][y]);
+    if (cell[x][y].bombsAround != 0) {
+        setTextByPosition(x, y, cell[x][y].bombsAround);
         return;
     }
 
+    let dx = [1, -1, 0, 0, 1, -1, -1, 1];
+    let dy = [0, 0, 1, -1, 1, -1, 1, -1];
+
     // Check other nearby cells, if it does not contains a bomb
     // then open it.
-    if (x + 1 < width) DFS(x + 1, y);
-    if (x - 1 >= 0) DFS(x - 1, y);
-    if (y + 1 < height) DFS(x, y + 1);
-    if (y - 1 >= 0) DFS(x, y - 1);
-    if (x + 1 < width &&
-        y + 1 < height) DFS(x + 1, y + 1);
-    if (x - 1 >= 0 &&
-        y - 1 >= 0) DFS(x - 1, y - 1);
-    if (x + 1 < width &&
-        y - 1 >= 0) DFS(x + 1, y - 1);
-    if (x - 1 >= 0 &&
-        y + 1 < height) DFS(x - 1, y + 1);
+    for (let i = 0; i < dx.length; ++i) {
+      if (x + dx[i] >= 0 && x + dx[i] < width &&
+          y + dy[i] >= 0 && y + dy[i] < height)
+            DFS(x + dx[i], y + dy[i]);
+    }
 }

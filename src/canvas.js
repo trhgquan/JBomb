@@ -14,7 +14,9 @@ const result            = document.getElementById('result'),            // Resul
 const unmarkColour  = '#808080',
       markedColour  = '#ffa500',
       noBombColour  = '#53d16e',
-      hasBombColour = '#f00000';
+      hasBombColour = '#f00000',
+      lineColour    = '#000000',
+      textColour    = '#000000';
 
 
 // Some elements, canvas art mostly.
@@ -24,7 +26,7 @@ var boxSize = 40;   // Canvas's box size
 
 /**
  * Draw a grid.
- * 
+ *
  * @param {number} width  width of the grid
  * @param {number} height height of the grid
  */
@@ -34,25 +36,22 @@ function drawBox(width, height) {
 
     // These codeblocks generate a (width * height) grid.
     canvas.beginPath();
-    canvas.fillStyle = unmarkColour;            // At the beginning, cell is colored unmarkColour
-    canvas.lineWidth = 3;                       // Canvas stroke's width
-    canvas.strokeStyle = 'black';               // At the beginning, stroke color is black.
-    canvas.font = '20px Times';                 // Text font
+    // Colour of the cell.
+    canvas.fillStyle = unmarkColour;
+    // Line width.
+    canvas.lineWidth = 3;
+    // Line colour.
+    canvas.strokeStyle = lineColour;
+    // Text font.
+    canvas.font = '20px Times';
 
-    for (let row = 0; row < width; row++) {
-        // Declare variables for algorithm
-        // a.k.a declare a 2D array in JS.
-        cells[row] = [];
-        opened[row] = [];
-        bombs[row] = [];
-        marked[row] = [];
+    for (let row = 0; row < width; ++row) {
+        // Declare a 2D array of cellObjects - the game board.
+        cell[row] = [];
 
-        for (let column = 0; column < height; column++) {
+        for (let column = 0; column < height; ++column) {
             // Declare variables for algorithm
-            cells[row][column] = 0;
-            opened[row][column] = false;
-            bombs[row][column] = false;
-            marked[row][column] = false;
+            cell[row][column] = new cellObjects(row, column);
 
             // Canvas draw here.
             let x = column * boxSize;
@@ -76,7 +75,7 @@ function drawBox(width, height) {
 
 /**
  * Color a cell (by geometry position method).
- * 
+ *
  * @param {number} x      x-position
  * @param {number} y      y-position
  * @param {string} colour Colour string
@@ -88,12 +87,12 @@ function setColourByPosition (x, y, colour) {
 
 /**
  * Write a text to a cell [x, y]
- * 
+ *
  * @param {number} x   x-position
  * @param {number} y   y-position
  * @param {string} txt text
  */
 function setTextByPosition (x, y, txt) {
-    canvas.fillStyle = 'black';
+    canvas.fillStyle = textColour;
     canvas.fillText(txt, (boxSize * x) + (boxSize / 2.5), (boxSize * y) + (boxSize / 1.75));
 }
