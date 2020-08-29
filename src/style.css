@@ -1,30 +1,30 @@
 body {
-    background-color: black;
-    color: white;
-    font-family: Arial; /* Many fonts tried but Arial is best for eyes  */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
+  background-color: black;
+  color: white;
+  font-family: Arial; /* Many fonts tried but Arial is best for eyes  */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
 }
 
 code {
-    background-color: #53d16e;
-    color: black;
-    font-weight: bold;
-    padding-left: 5px;
-    padding-right: 5px;
+  background-color: #53d16e;
+  color: black;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 div {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 #authorZone {
-    text-align: left;
-    background-color: grey;
-    padding-right: 10px;
-    padding-left: 10px;
+  text-align: left;
+  background-color: grey;
+  padding-right: 10px;
+  padding-left: 10px;
 }

@@ -10,50 +10,50 @@ var cellObjects = function (x, y) {
   // Method to check if a cell can be open automatically or not.
   // (using in DFS function).
   this.cannotOpen = function () {
-    return (this.isOpened || this.isMarked || this.isBomb)
+    return (this.isOpened || this.isMarked || this.isBomb);
   }
 
   // Method to check if a cell clicked is safe.
   this.safeOpen = function () {
-    return (!this.isBomb && !this.isMarked)
+    return (!this.isBomb && !this.isMarked);
   }
 
   // Method to check if a cell clicked is a bomb.
   this.bombOpen = function () {
-    return (this.isBomb && !this.isMarked)
+    return (this.isBomb && !this.isMarked);
   }
 
   // Method to check if a cell can be marked.
   this.canMark = function () {
-    return (!this.isOpened && !this.isMarked)
+    return (!this.isOpened && !this.isMarked);
   }
 
   // Method to check if a cell can be unmarked.
   this.canUnmark = function () {
-    return (this.isMarked && !this.isOpened)
+    return (this.isMarked && !this.isOpened);
   }
 
   // Method to check if a bomb is defused.
   // (Marking only).
   this.hasDefused = function () {
-    return (this.isMarked && this.isBomb)
+    return (this.isMarked && this.isBomb);
   }
-}
+};
 
 // Array of cellObjects.
-var cell = []
+var cell = [];
 
 // This activate the game's clock.
-var gameStarted = false
+var gameStarted = false;
 
 // Number of bombs generated at the beginning.
-var numberBomb
+var numberBomb;
 
 // Number of bombs generated minus user-defused bombs.
-var currentBombs
+var currentBombs;
 
 // Number of bombs defused.
-var defusedBombs
+var defusedBombs;
 
 /**
  * Generate a random number
@@ -65,7 +65,7 @@ var defusedBombs
  * @return {number} Randomised number, between [min, max]
  */
 function generateRandom (min, max) {
-  return Math.floor(Math.random() * (max - min) + min)
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 /**
@@ -73,13 +73,13 @@ function generateRandom (min, max) {
  */
 function initialise () {
   // Reset all variables
-  resetVariables()
+  resetVariables();
 
   // Generate bombs
-  bombGenerator()
+  bombGenerator();
 
   // Count bombs in the graph
-  countBombsInGraph()
+  countBombsInGraph();
 }
 
 /**
@@ -87,36 +87,36 @@ function initialise () {
  */
 function bombGenerator () {
   // Calculate number of bombs.
-  const maxBomb = Math.floor((width * height) / 2)
-  const minBomb = width
-  let bombX, bombY
+  const maxBomb = Math.floor((width * height) / 2);
+  const minBomb = width;
+  let bombX, bombY;
 
   // Number of bombs must larger than grid's width
   // and smaller than grid's size.
   do {
-    numberBomb = generateRandom(minBomb, maxBomb)
+    numberBomb = generateRandom(minBomb, maxBomb);
   } while (numberBomb <= minBomb || numberBomb >= maxBomb)
 
   // Update number of bombs currently and display it
-  currentBombs = numberBomb
+  currentBombs = numberBomb;
 
   // Update number of bombs defused, currently 0.
-  defusedBombs = 0
+  defusedBombs = 0;
 
   // Update result text.
-  result.innerText = 'Bombs left: ' + currentBombs
+  result.innerText = 'Bombs left: ' + currentBombs;
 
   for (let i = 0; i < numberBomb; ++i) {
     // Set the bomb at (bombX, bombY) position
     // if there is no bomb set at that position
     // and the position is still inside the grid.
     do {
-      bombX = generateRandom(0, Number(width))
-      bombY = generateRandom(0, Number(height))
+      bombX = generateRandom(0, Number(width));
+      bombY = generateRandom(0, Number(height));
     } while (bombX > width || bombY > height || cell[bombX][bombY].isBomb)
 
     // Set the position of the bomb
-    cell[bombX][bombY].isBomb = true
+    cell[bombX][bombY].isBomb = true;
   }
 }
 
@@ -126,7 +126,7 @@ function bombGenerator () {
 function countBombsInGraph () {
   for (let i = 0; i < width; ++i) {
     for (let j = 0; j < height; ++j) {
-      countBombs(i, j)
+      countBombs(i, j);
     }
   }
 }
@@ -138,7 +138,7 @@ function countBombsInGraph () {
  * @return {boolean} True if the game is finished, False otherwise.
  */
 function finished () {
-  return numberBomb === defusedBombs
+  return (numberBomb === defusedBombs && currentBombs === 0);
 }
 
 /**
@@ -149,22 +149,22 @@ function finished () {
  * @param {number} y y-position
  */
 function countBombs (x, y) {
-  let count = 0
-  const dx = [1, -1, 0, 0, 1, -1, 1, -1]
-  const dy = [0, 0, 1, -1, 1, -1, -1, 1]
+  let count = 0;
+  const dx = [1, -1, 0, 0, 1, -1, 1, -1];
+  const dy = [0, 0, 1, -1, 1, -1, -1, 1];
 
   // If that cell is not a bomb.
   if (!cell[x][y].isBomb) {
     for (let i = 0; i < dx.length; ++i) {
       if (x + dx[i] >= 0 && x + dx[i] < width &&
           y + dy[i] >= 0 && y + dy[i] < height) {
-        if (cell[x + dx[i]][y + dy[i]].isBomb) ++count
+        if (cell[x + dx[i]][y + dy[i]].isBomb) ++count;
       }
     }
   }
 
   // Cell number = count.
-  cell[x][y].bombsAround = count
+  cell[x][y].bombsAround = count;
 }
 
 /**
@@ -178,28 +178,28 @@ function countBombs (x, y) {
 function openSafeCells (x, y) {
   // If this is a bomb, this is marked or this has been opened
   // then leave it alone.
-  if (cell[x][y].cannotOpen()) return
+  if (cell[x][y].cannotOpen()) return;
 
   // Mark as visited
-  cell[x][y].isOpened = true
-  setColourByPosition(x, y, noBombColour)
+  cell[x][y].isOpened = true;
+  setColourByPosition(x, y, noBombColour);
 
   // If this cell has bombs around a.k.a has number,
   // mark as visited and open it, but not DFS all cells nearby.
   if (cell[x][y].bombsAround !== 0) {
-    setTextByPosition(x, y, cell[x][y].bombsAround)
-    return
+    setTextByPosition(x, y, cell[x][y].bombsAround);
+    return;
   }
 
-  const dx = [1, -1, 0, 0, 1, -1, -1, 1]
-  const dy = [0, 0, 1, -1, 1, -1, 1, -1]
+  const dx = [1, -1, 0, 0, 1, -1, -1, 1];
+  const dy = [0, 0, 1, -1, 1, -1, 1, -1];
 
   // Check other nearby cells, if it does not contains a bomb
   // then open it.
   for (let i = 0; i < dx.length; ++i) {
     if (x + dx[i] >= 0 && x + dx[i] < width &&
         y + dy[i] >= 0 && y + dy[i] < height) {
-      openSafeCells(x + dx[i], y + dy[i])
+      openSafeCells(x + dx[i], y + dy[i]);
     }
   }
 }

@@ -17,39 +17,44 @@
 -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.">
-        <title>JBomb</title>
-        <link rel="stylesheet" href="src/style.css">
-    </head>
-    <body>
-        <div id="intro">
-            <h1>JBomb</h1>
-            <p>A Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.</p>
-        </div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.">
+    <title>JBomb</title>
+    <link rel="stylesheet" href="src/style.css">
+  </head>
+  <body>
+    <div id="intro">
+      <h1>JBomb</h1>
+      <p>A Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.</p>
+    </div>
 
-        <div id="setting">
-            Grid size: <input type="text" id="grid_size" value="5">
-            <button id="playBtn" type="button">Play</button>
-        </div>
+    <div id="setting">
+      Grid size: <input type="text" id="grid_size" value="5">
+      <button id="playBtn" type="button">Play</button>
+    </div>
 
-        <div id="grid_size_display"></div>
-        <!-- Game clock -->
-        <div id="gameClock">
-            Your time: <span id="clock">0</span>s
-        </div>
-        <div id="game">
-            <canvas id="grid"></canvas>
-        </div>
-        <div id="result"></div>
-        <div id="authorZone">
-            <p>Execute a <code>git clone</code> to clone this project: <code>git clone https://github.com/trhgquan/JBomb.git</code></p>
-            <p>View <a href="https://github.com/trhgquan/JBomb" target="_blank">Project site</a> on GitHub.</p>
-            <p>GitHub <a href="https://github.com/trhgquan" target="_blank">@trhgquan</a>, <script>document.write((new Date).getFullYear());</script></p>
-        </div>
-    </body>
-    <script src="src/canvas.js"></script>
-    <script src="src/control.js"></script>
-    <script src="src/bomb.js"></script>
+    <div id="grid_size_display"></div>
+
+    <!-- Game clock -->
+    <div id="gameClock">
+      Your time: <span id="clock">0</span>s
+    </div>
+
+    <div id="game">
+      <canvas id="grid"></canvas>
+    </div>
+
+    <div id="result"></div>
+
+    <div id="authorZone">
+      <p>Execute a <code>git clone</code> to clone this project: <code>git clone https://github.com/trhgquan/JBomb.git</code></p>
+      <p>View <a href="https://github.com/trhgquan/JBomb" target="_blank">Project site</a> on GitHub.</p>
+      <p>GitHub <a href="https://github.com/trhgquan" target="_blank">@trhgquan</a>, <script>document.write((new Date).getFullYear());</script></p>
+    </div>
+
+    <script type="text/javascript" src="src/canvas.js"></script>
+    <script type="text/javascript" src="src/control.js"></script>
+    <script type="text/JavaScript" src="src/bomb.js"></script>
+  </body>
 </html>
