@@ -30,11 +30,16 @@
     </div>
 
     <div id="setting">
-      Grid size: <input type="text" id="grid_size" value="5">
+      Grid size:
+      <input type="radio" value="8x" id="8x" name="gridSize" checked><label for="8x">Beginner</label>
+      <input type="radio" value="16x" id="16x" name="gridSize"><label for="16x">Intermediate</label>
+      <input type="radio" value="30x" id="30x" name="gridSize"><label for="30x">Expert</label>
+
       <button id="playBtn" type="button">Play</button>
     </div>
 
     <div id="grid_size_display"></div>
+    <div id="result"></div>
 
     <!-- Game clock -->
     <div id="gameClock">
@@ -44,8 +49,6 @@
     <div id="game">
       <canvas id="grid"></canvas>
     </div>
-
-    <div id="result"></div>
 
     <div id="authorZone">
       <p>Execute a <code>git clone</code> to clone this project: <code>git clone https://github.com/trhgquan/JBomb.git</code></p>

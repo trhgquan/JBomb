@@ -1,3 +1,38 @@
+/**
+ * Constants for game aka width, height and total bombs;
+ */
+var gameConstants = function(gameSize) {
+  this.totalBombs = 0;
+  this.width      = 0;
+  this.height     = 0;
+
+  switch (gameSize) {
+    case '8x':
+      this.totalBombs = 10;
+      this.width      = 8;
+      this.height     = 8;
+      break;
+
+    case '16x':
+      this.totalBombs = 40;
+      this.width      = 16;
+      this.height     = 16;
+      break;
+
+    case '30x':
+      this.totalBombs = 99;
+      this.width      = 30;
+      this.height     = 30;
+      break;
+
+    default:
+      throw 'Grid size is not valid.';
+  }
+}
+
+// Game constant.
+var gameConstant;
+
 // Clock interval variable
 var gameClockInterval;
 
@@ -5,7 +40,15 @@ var gameClockInterval;
  * playBtn click handling, this draw the game canvas and start the game
  */
 playBtn.addEventListener('click', function (e) {
-  startNewGame();
+  let inputSize = document.querySelector('input[name="gridSize"]:checked').value;
+
+  try {
+    gameConstant = new gameConstants(inputSize);
+    startNewGame();
+  } catch (error) {
+    result.innerText = error;
+  }
+
   e.preventDefault();
 });
 
@@ -24,7 +67,7 @@ function handleLeftClick (e) {
   // Click that element
   if (cell[x][y].safeOpen()) {
     // DFS all the cells nearby.
-    openSafeCells(x, y);
+    openSafeCells(x, y, gameConstant);
 
     // Finished the game with true flag - user won.
     if (finished()) endGame(true);
@@ -91,29 +134,21 @@ function handleRightClick (e) {
  * Handle the 'Play' button click
  */
 function startNewGame () {
-  width = grid_size.value;
-  height = grid_size.value;
-
-  // Break the process if the size is invalid.
-  if (width < 5) {
-    result.innerText = 'Grid size is invalid';
-    return;
-  }
-
   // Resize the canvas html element
-  grid.height = height * boxSize;
-  grid.width = width * boxSize;
+  grid.height = gameConstant.height * boxSize;
+  grid.width  = gameConstant.width * boxSize;
 
   // Re-colour the result box
   result.style.color = resultColour;
 
   // Draw canvas
-  drawBox(width, height);
+  drawBox(gameConstant.width, gameConstant.height);
 
   // Generate bombs
   bombGenerator();
 
   // Count bombs in the graph
+  // Actually this add text to a cell, mentioning how many bombs around it.
   countBombsInGraph();
 
   // If the game has started already,
@@ -127,8 +162,8 @@ function startNewGame () {
  * (After finished)
  */
 function showBomb () {
-  for (let i = 0; i < width; ++i) {
-    for (let j = 0; j < height; ++j) {
+  for (let i = 0; i < gameConstant.width; ++i) {
+    for (let j = 0; j < gameConstant.height; ++j) {
       if (cell[i][j].isBomb) {
         if (cell[i][j].hasDefused()) {
           setColourByPosition(i, j, defusedColour);

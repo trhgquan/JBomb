@@ -71,7 +71,7 @@ function generateRandom (min, max) {
 /**
  * This function will initialise variables, generate bombs and count them.
  */
-function initialise () {
+function initialise (gameConstant) {
   // Reset all variables
   resetVariables();
 
@@ -86,19 +86,10 @@ function initialise () {
  * Generate bombs
  */
 function bombGenerator () {
-  // Calculate number of bombs.
-  const maxBomb = Math.floor((width * height) / 2);
-  const minBomb = width;
   let bombX, bombY;
 
-  // Number of bombs must larger than grid's width
-  // and smaller than grid's size.
-  do {
-    numberBomb = generateRandom(minBomb, maxBomb);
-  } while (numberBomb <= minBomb || numberBomb >= maxBomb)
-
   // Update number of bombs currently and display it
-  currentBombs = numberBomb;
+  currentBombs = gameConstant.totalBombs;
 
   // Update number of bombs defused, currently 0.
   defusedBombs = 0;
@@ -106,14 +97,14 @@ function bombGenerator () {
   // Update result text.
   result.innerText = 'Bombs left: ' + currentBombs;
 
-  for (let i = 0; i < numberBomb; ++i) {
+  for (let i = 0; i < gameConstant.totalBombs; ++i) {
     // Set the bomb at (bombX, bombY) position
     // if there is no bomb set at that position
     // and the position is still inside the grid.
     do {
-      bombX = generateRandom(0, Number(width));
-      bombY = generateRandom(0, Number(height));
-    } while (bombX > width || bombY > height || cell[bombX][bombY].isBomb)
+      bombX = generateRandom(0, gameConstant.width);
+      bombY = generateRandom(0, gameConstant.height);
+    } while (cell[bombX][bombY].isBomb)
 
     // Set the position of the bomb
     cell[bombX][bombY].isBomb = true;
@@ -124,8 +115,8 @@ function bombGenerator () {
  * Count number of bombs around the grid (a grid consist of many cells).
  */
 function countBombsInGraph () {
-  for (let i = 0; i < width; ++i) {
-    for (let j = 0; j < height; ++j) {
+  for (let i = 0; i < gameConstant.width; ++i) {
+    for (let j = 0; j < gameConstant.height; ++j) {
       countBombs(i, j);
     }
   }
@@ -156,8 +147,8 @@ function countBombs (x, y) {
   // If that cell is not a bomb.
   if (!cell[x][y].isBomb) {
     for (let i = 0; i < dx.length; ++i) {
-      if (x + dx[i] >= 0 && x + dx[i] < width &&
-          y + dy[i] >= 0 && y + dy[i] < height) {
+      if (x + dx[i] >= 0 && x + dx[i] < gameConstant.width &&
+          y + dy[i] >= 0 && y + dy[i] < gameConstant.height) {
         if (cell[x + dx[i]][y + dy[i]].isBomb) ++count;
       }
     }
@@ -197,9 +188,9 @@ function openSafeCells (x, y) {
   // Check other nearby cells, if it does not contains a bomb
   // then open it.
   for (let i = 0; i < dx.length; ++i) {
-    if (x + dx[i] >= 0 && x + dx[i] < width &&
-        y + dy[i] >= 0 && y + dy[i] < height) {
-      openSafeCells(x + dx[i], y + dy[i]);
+    if (x + dx[i] >= 0 && x + dx[i] < gameConstant.width &&
+        y + dy[i] >= 0 && y + dy[i] < gameConstant.height) {
+      openSafeCells(x + dx[i], y + dy[i], gameConstant);
     }
   }
 }

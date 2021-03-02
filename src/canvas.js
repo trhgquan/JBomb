@@ -5,9 +5,6 @@
 // Result is updated and write to this element
 const result = document.getElementById('result');
 
-// Grid size get from this element
-const grid_size = document.getElementById('grid_size');
-
 // Grid size will be display here
 const grid_size_display = document.getElementById('grid_size_display');
 
