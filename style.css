@@ -1,7 +1,7 @@
 body {
   background-color: black;
   color: white;
-  font-family: Arial; /* Many fonts tried but Arial is best for eyes  */
+  font-family: sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,7 +22,7 @@ div {
   margin-top: 10px;
 }
 
-#authorZone {
+.hasBackgroundZone {
   text-align: left;
   background-color: grey;
   padding-right: 10px;

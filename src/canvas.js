@@ -84,7 +84,7 @@ function drawBox (width, height) {
   grid.addEventListener('contextmenu', handleRightClick);
 
   // Tell the user the grid_size.
-  grid_size_display.innerText = 'Grid size: ' + width + ' x ' + height;
+  grid_size_display.innerHTML = 'Grid size: ' + width + ' &times; ' + height;
 }
 
 /**

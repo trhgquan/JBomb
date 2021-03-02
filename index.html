@@ -1,18 +1,11 @@
 <!--
 +---------------------------------------------------------------------------------------------+
-|                                                                                             |
 |   ____ _             __  __               ____ _           _  __  __                        |
 |  / ___| |__  _   _  |  \/  | ___  ___    / ___| |__  _   _(_) \ \/ /___   ___  _ __   __ _  |
 | | |   | '_ \| | | | | |\/| |/ _ \/ _ \  | |   | '_ \| | | | |  \  // _ \ / _ \| '_ \ / _` | |
 | | |___| | | | |_| | | |  | |  __/ (_) | | |___| | | | |_| | |  /  \ (_) | (_) | | | | (_| | |
 |  \____|_| |_|\__,_| |_|  |_|\___|\___/   \____|_| |_|\__,_|_| /_/\_\___/ \___/|_| |_|\__, | |
 |                                                                                      |___/  |
-|                                                                                             |
-|> Author.........: @trhgquan (https://github.com/trhgquan)                                   |
-|> ...............: @meadoge  (https://github.com/meadoge)                                    |
-+---------------------------------------------------------------------------------------------+
-|> Try Google "SGO48", not because this project is using anything from "SGO48".               |
-|> I'm just their fan and doing anything I can to support my idols :D                         |
 +---------------------------------------------------------------------------------------------+
 -->
 <!DOCTYPE html>
@@ -21,7 +14,7 @@
     <meta charset="utf-8">
     <meta name="description" content="JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.">
     <title>JBomb</title>
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="intro">
@@ -29,17 +22,19 @@
       <p>A Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.</p>
     </div>
 
-    <div id="setting">
-      Grid size:
-      <input type="radio" value="8x" id="8x" name="gridSize" checked><label for="8x">Beginner</label>
-      <input type="radio" value="16x" id="16x" name="gridSize"><label for="16x">Intermediate</label>
-      <input type="radio" value="30x" id="30x" name="gridSize"><label for="30x">Expert</label>
+    <div class="hasBackgroundZone" id="setting">
+      <div id="inputStyle">
+        Grid size:
+        <input type="radio" value="8x" id="8x" name="gridSize" checked><label for="8x">Beginner</label>
+        <input type="radio" value="16x" id="16x" name="gridSize"><label for="16x">Intermediate</label>
+        <input type="radio" value="30x" id="30x" name="gridSize"><label for="30x">Expert</label>
 
-      <button id="playBtn" type="button">Play</button>
+        <button id="playBtn" class="styledButton" type="button">Play</button>
+      </div>
+
+      <div id="grid_size_display"></div>
+      <div id="result"></div>
     </div>
-
-    <div id="grid_size_display"></div>
-    <div id="result"></div>
 
     <!-- Game clock -->
     <div id="gameClock">
@@ -50,7 +45,7 @@
       <canvas id="grid"></canvas>
     </div>
 
-    <div id="authorZone">
+    <div class="hasBackgroundZone">
       <p>Execute a <code>git clone</code> to clone this project: <code>git clone https://github.com/trhgquan/JBomb.git</code></p>
       <p>View <a href="https://github.com/trhgquan/JBomb" target="_blank">Project site</a> on GitHub.</p>
       <p>GitHub <a href="https://github.com/trhgquan" target="_blank">@trhgquan</a>, <script>document.write((new Date).getFullYear());</script></p>
