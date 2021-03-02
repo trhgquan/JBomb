@@ -40,12 +40,22 @@ var gameClockInterval;
  * playBtn click handling, this draw the game canvas and start the game
  */
 playBtn.addEventListener('click', function (e) {
-  let inputSize = document.querySelector('input[name="gridSize"]:checked').value;
+  let selectedInput = document.querySelector('input[name="gridSize"]:checked');
+
+  // User didn't choose a grid size before started.
+  if (selectedInput == null) {
+    result.innerText = 'Select a grid size, then try again.';
+    result.style.color = hasBombColour;
+    return false;
+  }
+
+  let inputSize = selectedInput.value;
 
   try {
     gameConstant = new gameConstants(inputSize);
     startNewGame();
-  } catch (error) {
+  }
+  catch (error) {
     result.innerText = error;
   }
 
@@ -67,7 +77,7 @@ function handleLeftClick (e) {
   // Click that element
   if (cell[x][y].safeOpen()) {
     // DFS all the cells nearby.
-    openSafeCells(x, y, gameConstant);
+    openSafeCells(x, y);
 
     // Finished the game with true flag - user won.
     if (finished()) endGame(true);

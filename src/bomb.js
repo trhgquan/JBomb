@@ -71,7 +71,7 @@ function generateRandom (min, max) {
 /**
  * This function will initialise variables, generate bombs and count them.
  */
-function initialise (gameConstant) {
+function initialise () {
   // Reset all variables
   resetVariables();
 
@@ -190,7 +190,7 @@ function openSafeCells (x, y) {
   for (let i = 0; i < dx.length; ++i) {
     if (x + dx[i] >= 0 && x + dx[i] < gameConstant.width &&
         y + dy[i] >= 0 && y + dy[i] < gameConstant.height) {
-      openSafeCells(x + dx[i], y + dy[i], gameConstant);
+      openSafeCells(x + dx[i], y + dy[i]);
     }
   }
 }
