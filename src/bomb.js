@@ -129,7 +129,7 @@ function countBombsInGraph () {
  * @return {boolean} True if the game is finished, False otherwise.
  */
 function finished () {
-  return (numberBomb === defusedBombs && currentBombs === 0);
+  return (gameConstant.totalBombs === defusedBombs && currentBombs === 0);
 }
 
 /**
