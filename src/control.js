@@ -12,23 +12,27 @@ var gameClockInterval;
  * playBtn click handling, this draw the game canvas and start the game
  */
 playBtn.addEventListener('click', function (e) {
-  let selectedInput = document.querySelector('input[name="gridSize"]:checked');
-
-  // User didn't choose a grid size before started.
-  if (selectedInput == null) {
-    result.innerText = 'Select a grid size, then try again.';
-    result.style.color = hasBombColour;
-    return false;
-  }
-
-  let inputSize = selectedInput.value;
-
   try {
+    let selectedInput = document.querySelector(
+      'input[name="gridSize"]:checked'
+    );
+
+    // User didn't choose a grid size before started.
+    if (selectedInput == null) {
+      console.log("this happened");
+      throw 'Select a grid size, then try again.';
+    }
+
+    // Get input value.
+    let inputSize = selectedInput.value;
+
+    // Create a new game handle.
     gameHandle = new Game(inputSize);
-    // gameHandle.startNewGame(inputSize);
   }
+
   catch (error) {
     result.innerText = error;
+    result.style.color = hasBombColour;
   }
 
   e.preventDefault();

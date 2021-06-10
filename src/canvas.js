@@ -82,11 +82,6 @@ class CanvasControl {
 
     this.canvas.closePath();
 
-    // Add event for the game:
-    // left-click and right-click
-    // grid.addEventListener('click', handleLeftClick);
-    // grid.addEventListener('contextmenu', handleRightClick);
-
     // Tell the user the grid_size.
     grid_size_display.innerHTML = 'Grid size: ' + this.width + ' &times; ' + this.height;
   }
