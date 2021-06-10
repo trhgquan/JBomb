@@ -1,37 +1,9 @@
 /**
  * Constants for game aka width, height and total bombs;
  */
-var gameConstants = function(gameSize) {
-  this.totalBombs = 0;
-  this.width      = 0;
-  this.height     = 0;
-
-  switch (gameSize) {
-    case '8x':
-      this.totalBombs = 10;
-      this.width      = 8;
-      this.height     = 8;
-      break;
-
-    case '16x':
-      this.totalBombs = 40;
-      this.width      = 16;
-      this.height     = 16;
-      break;
-
-    case '30x':
-      this.totalBombs = 99;
-      this.width      = 30;
-      this.height     = 30;
-      break;
-
-    default:
-      throw 'Grid size is not valid.';
-  }
-}
 
 // Game constant.
-var gameConstant;
+var gameHandle;
 
 // Clock interval variable
 var gameClockInterval;
@@ -52,8 +24,8 @@ playBtn.addEventListener('click', function (e) {
   let inputSize = selectedInput.value;
 
   try {
-    gameConstant = new gameConstants(inputSize);
-    startNewGame();
+    gameHandle = new Game(inputSize);
+    // gameHandle.startNewGame(inputSize);
   }
   catch (error) {
     result.innerText = error;
@@ -71,8 +43,8 @@ playBtn.addEventListener('click', function (e) {
 function handleLeftClick (e) {
   // If there is not a bomb
   // Get grid's position
-  let x = Math.floor(e.offsetX / boxSize);
-  let y = Math.floor(e.offsetY / boxSize);
+  let x = Math.floor(e.offsetX / gameHandle.boxSize());
+  let y = Math.floor(e.offsetY / gameHandle.boxSize());
 
   // Click that element
   if (cell[x][y].safeOpen()) {
@@ -124,10 +96,10 @@ function handleRightClick (e) {
     setColourByPosition(x, y, unmarkColour);
 
     // Unmark that position
-    cell[x][y].isMarked = false;
+    cell[x][y].setIsMarked(false);
 
     // If that cell is a bomb, decrease defused.
-    if (cell[x][y].isBomb) --defusedBombs;
+    if (cell[x][y].isBomb()) --defusedBombs;
 
     // Increase number of bombs left
     ++currentBombs;
