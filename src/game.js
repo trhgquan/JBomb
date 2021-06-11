@@ -4,14 +4,15 @@ class Game {
   bombsControl;
   width;
   height;
-  clock;
+  clockHandle;
 
   constructor(gameSize) {
     this.setGameSize(gameSize);
-    this.startNewGame();
+    this.startGame();
+    this.initClock();
 
     // Update total bombs.
-    result.innerText = "Bombs left: " + this.totalBombs;
+    this.canvasControl.writeBombsLeft(this.bombsControl.getCurrentBombs());
   }
 
   /**
@@ -46,34 +47,60 @@ class Game {
   /**
    * Start a new game.
    */
-  startNewGame = function() {
+  startGame = function() {
     // Create a new canvas, with width, height and default boxSize
     this.canvasControl = new CanvasControl(this.width, this.height); 
-    this.bombsControl  = new BombsControl(this.width, this.height, this.totalBombs);
+    
+    // Create a new bombs control.
+    this.bombsControl  = new BombsControl(
+      this.width, this.height, 
+      this.totalBombs
+    );
   }
 
   /**
-   * Get total bombs of this round.
-   * @returns int
+   * Actions when winning.
    */
-  getTotalBombs = function() {
-    return this.totalBombs;
+  winning = function() {
+    // Write winning
+    this.canvasControl.writeWinning(this.totalBombs);
   }
 
   /**
-   * Get this round's width
-   * @returns int
+   * Actions when losing.
    */
-  getWidth = function() {
-    return this.width;
+  losing = function() {
+    // Write losing.
+    this.canvasControl.writeLosing(this.bombsControl.getCurrentBombs());
   }
 
   /**
-   * Get this round's height
-   * @returns int
+   * Ending a game.
    */
-  getHeight = function() {
-    return this.height;
+  endGame = function() {
+    this.destroyClock();
+
+    if (this.isFinished()) {
+      this.winning();
+    }
+
+    else {
+      this.losing();
+    }
+
+    // Show locations of all bombs.
+    for (let i = 0; i < this.width; ++i) {
+      for (let j = 0; j < this.height; ++j) {
+        let currentCell = this.bombsControl.getCell(i, j);
+
+        if (currentCell.isBomb()) {
+          this.canvasControl.setColour(
+            i, j,
+            currentCell.hasDefused() ? defusedColour : hasBombColour
+          );
+        }
+      }
+    }
   }
 
   /**
@@ -109,5 +136,44 @@ class Game {
             this.openSafeCells(x + dx[i], y + dy[i]);
           }
     }
+  }
+
+  /**
+   * Check if the game is finished.
+   * @returns bool
+   */
+  isFinished = function() {
+    return (this.totalBombs == this.bombsControl.getDefusedBombs() &&
+            this.bombsControl.getCurrentBombs() == 0);
+  }
+
+  /**
+   * Create a clock.
+   */
+  initClock = function() {
+    if (this.clockHandle) {
+      this.destroyClock();
+    }
+
+    this.clockHandle = setInterval(function() {
+      clock.innerText = Number(clock.innerText) + 1;
+    }, 1000);
+  }
+
+  /**
+   * Destroy this clock.
+   */
+  destroyClock = function() {
+    clearInterval(this.clockHandle);
+
+    clock.innerText = 0;
+
+    this.clockHandle = false;
+  }
+
+  destructor() {
+    this.destroyClock();
+    this.bombsControl = {};
+    this.canvasControl = {};
   }
 }

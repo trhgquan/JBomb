@@ -82,8 +82,7 @@ class CanvasControl {
 
     this.canvas.closePath();
 
-    // Tell the user the grid_size.
-    grid_size_display.innerHTML = 'Grid size: ' + this.width + ' &times; ' + this.height;
+    this.writeSize();
   }
 
   /**
@@ -116,5 +115,44 @@ class CanvasControl {
       (this.boxSize * x) + (this.boxSize / 2.5), 
       (this.boxSize * y) + (this.boxSize / 1.75)
     );
+  }
+
+  /**
+   * Write the grid size to the zone.
+   */
+   writeSize = function() {
+    // Tell the user the grid_size.
+    grid_size_display.innerHTML = 'Grid size: ' + 
+                                  this.width + 
+                                  ' &times; ' + 
+                                  this.height;
+  }
+
+  /**
+   * Write bombs count to screen.
+   * @param {int} bombsCount 
+   */
+  writeBombsLeft = function(bombsCount) {
+    result.innerText = 'Bombs left: ' + bombsCount;
+  }
+
+  /**
+   * Write when won.
+   * @param {int} bombsCount 
+   */
+  writeWinning = function(bombsCount) {
+    const newNode = document.createTextNode('Bombs defused: ' + bombsCount);
+
+    result.innerText = 'Status: WON / ';
+    result.style.color = noBombColour;
+    result.appendChild(newNode);
+  }
+
+  writeLosing = function(bombsCount) {
+    const newNode = document.createTextNode('Bombs defused: ' + bombsCount);
+
+    result.innerText = 'Status: LOST / ';
+    result.style.color = hasBombColour;
+    result.appendChild(newNode);
   }
 }

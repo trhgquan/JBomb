@@ -19,7 +19,6 @@ playBtn.addEventListener('click', function (e) {
 
     // User didn't choose a grid size before started.
     if (selectedInput == null) {
-      console.log("this happened");
       throw 'Select a grid size, then try again.';
     }
 
@@ -27,6 +26,9 @@ playBtn.addEventListener('click', function (e) {
     let inputSize = selectedInput.value;
 
     // Create a new game handle.
+    if (gameHandle instanceof Game) {
+      gameHandle.destructor();
+    }
     gameHandle = new Game(inputSize);
   }
 

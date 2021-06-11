@@ -233,6 +233,38 @@ class BombsControl {
   openCell = function(x, y) {
     this.cellArray[x][y].setOpened(true);
   }
+
+  /**
+   * Get total defused bombs
+   * @returns int
+   */
+  getDefusedBombs = function() {
+    return this.defusedBombs;
+  }
+
+  /**
+   * Set total defused bombs
+   * @param {int} defusedBombs 
+   */
+  setDefusedBombs = function(defusedBombs) {
+    this.defusedBombs = defusedBombs;
+  }
+
+  /**
+   * Set current bombs
+   * @returns int
+   */
+  getCurrentBombs = function() {
+    return this.currentBombs;
+  }
+
+  /**
+   * Get current bombs
+   * @param {int} currentBombs 
+   */
+  setCurrentBombs = function(currentBombs) {
+    this.currentBombs = currentBombs;
+  }
 }
 
 // This activate the game's clock.
