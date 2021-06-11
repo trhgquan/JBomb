@@ -29,84 +29,141 @@ const lineColour    = '#000000';
 const textColour    = '#000000';
 const resultColour  = '#ffffff';
 
-// Some elements, canvas art mostly.
-var canvas; // Canvas drawing variable
-var width, height; // Canvas width and height
-var boxSize = 40; // Canvas's box size
-
 /**
- * Draw a grid.
- *
- * @param {number} width  width of the grid
- * @param {number} height height of the grid
+ * Definition of the canvas control.
  */
-function drawBox (width, height) {
-  // Canvas Initialize
-  canvas = grid.getContext('2d');
+class CanvasControl {
+  canvas;
+  width;
+  height;
+  boxSize;
 
-  // These codeblocks generate a (width * height) grid.
-  canvas.beginPath();
+  constructor(width, height, boxSize = 40) {
+    this.width = width;
+    this.height = height;
+    this.boxSize = boxSize;
 
-  // Colour of the cell.
-  canvas.fillStyle = unmarkColour;
-
-  // Line width.
-  canvas.lineWidth = 3;
-
-  // Line colour.
-  canvas.strokeStyle = lineColour;
-
-  // Text font.
-  canvas.font = '20px Times';
-
-  for (let row = 0; row < width; ++row) {
-    // Declare a 2D array of cellObjects - the game board.
-    cell[row] = [];
-
-    for (let column = 0; column < height; ++column) {
-      // Declare variables for algorithm
-      cell[row][column] = new cellObjects(row, column);
-
-      // Canvas draw here.
-      const x = column * boxSize;
-      const y = row * boxSize;
-      canvas.rect(x, y, boxSize, boxSize);
-      canvas.fill();
-      canvas.stroke();
-    }
+    this.draw();
   }
 
-  canvas.closePath();
+  /**
+   * Draw graphic grid.
+   */
+  draw = function() {
+    grid.height = this.height * this.boxSize;
+    grid.width = this.width * this.boxSize;
 
-  // Add event for the game:
-  // left-click and right-click
-  grid.addEventListener('click', handleLeftClick);
-  grid.addEventListener('contextmenu', handleRightClick);
+    this.canvas = grid.getContext('2d');
 
-  // Tell the user the grid_size.
-  grid_size_display.innerHTML = 'Grid size: ' + width + ' &times; ' + height;
-}
+    // These codeblocks generate a (width * height) grid.
+    this.canvas.beginPath();
 
-/**
- * Color a cell (by geometry position method).
- *
- * @param {number} x      x-position
- * @param {number} y      y-position
- * @param {string} colour Colour string
- */
-function setColourByPosition (x, y, colour) {
-  canvas.fillStyle = colour;
-  canvas.fillRect((x * boxSize) + 2, (y * boxSize) + 2, boxSize - 4, boxSize - 4);
-}
+    // Colour of the cell.
+    this.canvas.fillStyle = unmarkColour;
 
-/**
- * Write a text to a cell has position (x, y)
- *
- * @param {number} x   x-position
- * @param {number} y   y-position
- * @param {string} txt text
- */
-function setTextByPosition (x, y, txt) {
-  canvas.fillStyle = textColour;
-  canvas.fillText(txt, (boxSize * x) + (boxSize / 2.5), (boxSize * y) + (boxSize / 1.75));
+    // Line width.
+    this.canvas.lineWidth = 3;
+
+    // Line colour.
+    this.canvas.strokeStyle = lineColour;
+
+    // Text font.
+    this.canvas.font = '20px Times';
+
+    for (let row = 0; row < this.width; ++row) {
+      for (let column = 0; column < this.height; ++column) {
+        // Canvas draw here.
+        this.canvas.rect(
+          column * this.boxSize, 
+          row * this.boxSize, 
+          this.boxSize, this.boxSize
+        );
+        this.canvas.fill();
+        this.canvas.stroke();
+      }
+    }
+
+    this.canvas.closePath();
+
+    this.writeSize();
+  }
+
+  getBoxSize = function() {
+    return this.boxSize;
+  }
+
+  /**
+   * Color a cell (by geometry position method).
+   *
+   * @param {number} x      x-position
+   * @param {number} y      y-position
+   * @param {string} colour Colour string
+   */
+  setColour = function (x, y, colour) {
+    this.canvas.fillStyle = colour;
+    this.canvas.fillRect(
+      (x * this.boxSize) + 2, 
+      (y * this.boxSize) + 2, 
+      this.boxSize - 4, this.boxSize - 4
+    );
+  }
+
+  /**
+   * Write a text to a cell has position (x, y)
+   *
+   * @param {number} x   x-position
+   * @param {number} y   y-position
+   * @param {string} txt text
+   */
+  setText = function (x, y, txt) {
+    this.canvas.fillStyle = textColour;
+    this.canvas.fillText(
+      txt, 
+      (this.boxSize * x) + (this.boxSize / 2.5), 
+      (this.boxSize * y) + (this.boxSize / 1.75)
+    );
+  }
+
+  /**
+   * Write the grid size to the zone.
+   */
+   writeSize = function() {
+    // Tell the user the grid_size.
+    grid_size_display.innerHTML = 'Grid size: ' + 
+                                  this.width + 
+                                  ' &times; ' + 
+                                  this.height;
+  }
+
+  /**
+   * Write bombs count to screen.
+   * @param {int} bombsCount 
+   */
+  writeBombsLeft = function(bombsCount) {
+    result.innerText = 'Bombs left: ' + bombsCount;
+  }
+
+  /**
+   * Write when won.
+   * @param {int} bombsCount 
+   */
+  writeWinning = function(bombsCount) {
+    const newNode = document.createTextNode('Bombs defused: ' + bombsCount);
+
+    result.innerText = 'Status: WON / ';
+    result.style.color = noBombColour;
+    result.appendChild(newNode);
+  }
+
+  /**
+   * Write when lose.
+   * @param {int} bombsCount 
+   */
+  writeLosing = function(bombsCount) {
+    const newNode = document.createTextNode('Bombs defused: ' + bombsCount);
+
+    result.innerText = 'Status: LOST / ';
+    result.style.color = hasBombColour;
+    result.appendChild(newNode);
+  }
 }

@@ -7,7 +7,9 @@ JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTM
 # Install
 Execute a `git clone`:
 
-`git clone https://github.com/trhgquan/JBomb.git`
+```
+git clone git@github.com:trhgquan/JBomb.git
+```
 
 # DEMO
 [Live demo here](https://trhgquan.github.io/JBomb/index.html)
@@ -16,6 +18,8 @@ Execute a `git clone`:
 The Original Chú Mèo Chui Xoong - [@trhgquan](https://github.com/trhgquan)
 
 Also Chú Mèo Chui Xoong, but stronger - [@meadoge](https://github.com/meadoge)
+
+Still Chu Meo Chui Xoong, but in Ubuntu - [@hwangswan](https://github.com/hwnagswan)
 
 # License
 JBomb is licensed under [The MIT License](https://github.com/trhgquan/JBomb/blob/master/LICENSE)
