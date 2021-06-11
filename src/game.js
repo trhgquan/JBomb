@@ -6,6 +6,10 @@ class Game {
   _width;
   _height;
   
+  /**
+   * Constructor for Game
+   * @param {int} gameSize 
+   */
   constructor(gameSize) {
     this.setGameSize(gameSize);
     this.startGame();

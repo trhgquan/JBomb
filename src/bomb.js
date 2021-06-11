@@ -20,6 +20,11 @@ class bombCell {
   _bombsAround;
   _flag;
 
+  /**
+   * Constructor for bombCell
+   * @param {int} x 
+   * @param {int} y 
+   */
   constructor(x, y) {
     this._x = x;
     this._y = y;
@@ -175,6 +180,12 @@ class BombsControl {
   _width;
   _height;
 
+  /**
+   * Constructor for BombsControl
+   * @param {int} width 
+   * @param {int} height 
+   * @param {int} maxBombs 
+   */
   constructor(width, height, maxBombs) {
     this._cellArray = [];
     this._currentBombs = maxBombs;

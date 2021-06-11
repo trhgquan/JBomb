@@ -38,6 +38,12 @@ class CanvasControl {
   _height;
   _boxSize;
 
+  /**
+   * Constructor for CanvasControl
+   * @param {int} width 
+   * @param {int} height 
+   * @param {int} boxSize 
+   */
   constructor(width, height, boxSize = 40) {
     this._width = width;
     this._height = height;
