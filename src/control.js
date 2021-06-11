@@ -8,7 +8,7 @@ var gameHandle;
 /**
  * playBtn click handling, this draw the game canvas and start the game
  */
-playBtn.addEventListener('click', function (e) {
+playBtn.addEventListener("click", function (e) {
   try {
     let selectedInput = document.querySelector(
       'input[name="gridSize"]:checked'
@@ -16,7 +16,7 @@ playBtn.addEventListener('click', function (e) {
 
     // User didn't choose a grid size before started.
     if (selectedInput == null) {
-      throw 'Select a grid size, then try again.';
+      throw "Select a grid size, then try again.";
     }
 
     // Get input value.
@@ -27,9 +27,7 @@ playBtn.addEventListener('click', function (e) {
       gameHandle.destructor();
     }
     gameHandle = new Game(inputSize);
-  }
-
-  catch (error) {
+  } catch (error) {
     result.innerText = error;
     result.style.color = hasBombColour;
   }
