@@ -1,24 +1,30 @@
+/**
+ * Positions to traverse.
+ */
 const dx = [1, -1, 0, 0, 1, -1, 1, -1];
 const dy = [0, 0, 1, -1, 1, -1, -1, 1];
+
+/**
+ * Flags for a bomb.
+ */
+const FLAG_OPENED = 1 << 0;
+const FLAG_MARKED = 1 << 1;
+const FLAG_BOMB = 1 << 2;
 
 /**
  * Store a cell's info.
  */
 class bombCell {
-  x;
-  y;
-  bombsAround;
-  opened;
-  marked;
-  bomb;
+  _x;
+  _y;
+  _bombsAround;
+  _flag;
 
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.bombsAround = 0;
-    this.opened = false;
-    this.marked = false;
-    this.bomb = false;
+    this._x = x;
+    this._y = y;
+    this._bombsAround = 0;
+    this._flag = 0;
   }
 
   /**
@@ -26,7 +32,9 @@ class bombCell {
    * @returns boolean
    */
   cannotOpen = function () {
-    return (this.opened || this.marked || this.bomb);
+    return ((this._flag & FLAG_OPENED) ||
+            (this._flag & FLAG_MARKED) ||
+            (this._flag & FLAG_BOMB));
   }
 
   /**
@@ -34,7 +42,8 @@ class bombCell {
    * @returns boolean
    */
   safeOpen = function () {
-    return (!this.bomb && !this.marked);
+    return (!(this._flag & FLAG_BOMB) &&
+            !(this._flag & FLAG_MARKED));
   }
 
   /**
@@ -42,7 +51,8 @@ class bombCell {
    * @returns boolean
    */
   bombOpen = function () {
-    return (this.bomb && !this.marked);
+    return ((this._flag & FLAG_BOMB) &&
+            !(this._flag & FLAG_MARKED));
   }
 
   /**
@@ -50,7 +60,8 @@ class bombCell {
    * @returns boolean
    */
   canMark = function () {
-    return (!this.opened && !this.marked);
+    return (!(this._flag & FLAG_OPENED) &&
+            !(this._flag & FLAG_MARKED));
   }
 
   /**
@@ -58,7 +69,8 @@ class bombCell {
    * @returns boolean
    */
   canUnmark = function () {
-    return (this.marked && !this.opened);
+    return ((this._flag & FLAG_MARKED) &&
+            !(this._flag & FLAG_OPENED));
   }
 
   /**
@@ -66,7 +78,8 @@ class bombCell {
    * @returns boolean
    */
   hasDefused = function () {
-    return (this.marked && this.bomb);
+    return ((this._flag & FLAG_MARKED) &&
+            (this._flag & FLAG_BOMB));
   }
 
   /**
@@ -74,7 +87,7 @@ class bombCell {
    * @returns boolean
    */
   isOpened = function () {
-    return this.opened;
+    return this._flag & FLAG_OPENED;
   }
 
   /**
@@ -82,7 +95,13 @@ class bombCell {
    * @param {boolean} isOpened 
    */
   setOpened = function(isOpened) {
-    this.opened = isOpened;
+    if (isOpened) {
+      this._flag |= FLAG_OPENED;
+    }
+
+    else {
+      this._flag &= ~FLAG_OPENED;
+    }
   }
 
   /**
@@ -90,7 +109,7 @@ class bombCell {
    * @returns boolean
    */
   isBomb = function() {
-    return this.bomb;
+    return this._flag & FLAG_BOMB;
   }
 
   /**
@@ -98,7 +117,13 @@ class bombCell {
    * @param {boolean} isBomb 
    */
   setBomb = function(isBomb) {
-    this.bomb = isBomb;
+    if (isBomb) {
+      this._flag |= FLAG_BOMB;
+    }
+
+    else {
+      this._flag &= ~FLAG_BOMB;
+    }
   }
 
   /**
@@ -106,7 +131,7 @@ class bombCell {
    * @returns boolean
    */
   isMarked = function() {
-    return this.marked;
+    return this._flag & FLAG_MARKED;
   }
 
   /**
@@ -114,7 +139,13 @@ class bombCell {
    * @param {boolean} isMarked 
    */
   setMarked = function(isMarked) {
-    this.marked = isMarked;
+    if (isMarked) {
+      this._flag |= FLAG_MARKED;
+    }
+
+    else {
+      this._flag &= ~FLAG_MARKED;
+    }
   }
 
   /**
@@ -122,7 +153,7 @@ class bombCell {
    * @returns int
    */
   getBombsAround = function() {
-    return this.bombsAround;
+    return this._bombsAround;
   }
 
   /**
@@ -130,7 +161,7 @@ class bombCell {
    * @param {int} bombsAround 
    */
   setBombsAround = function(bombsAround) {
-    this.bombsAround = bombsAround;
+    this._bombsAround = bombsAround;
   }
 };
 
@@ -138,23 +169,23 @@ class bombCell {
  * Bombs control.
  */
 class BombsControl {
-  cellArray;
-  currentBombs;
-  defusedBombs;
-  width;
-  height;
+  _cellArray;
+  _currentBombs;
+  _defusedBombs;
+  _width;
+  _height;
 
   constructor(width, height, maxBombs) {
-    this.cellArray = [];
-    this.currentBombs = maxBombs;
-    this.defusedBombs = 0;
-    this.width = width; this.height = height;
+    this._cellArray = [];
+    this._currentBombs = maxBombs;
+    this._defusedBombs = 0;
+    this._width = width; this._height = height;
 
     // Create bombs vector.
-    for (let i = 0; i < this.width; ++i) {
-      this.cellArray[i] = [];
-      for (let j = 0; j < this.height; ++j) {
-        this.cellArray[i][j] = new bombCell(i, j);
+    for (let i = 0; i < this._width; ++i) {
+      this._cellArray[i] = [];
+      for (let j = 0; j < this._height; ++j) {
+        this._cellArray[i][j] = new bombCell(i, j);
       }
     }
 
@@ -183,11 +214,11 @@ class BombsControl {
     let x, y;
     for (let i = 0; i < maxBombs; ++i) {
       do {
-        x = this.randomInt(0, this.width);
-        y = this.randomInt(0, this.height);
-      } while (this.cellArray[x][y].isBomb());
+        x = this.randomInt(0, this._width);
+        y = this.randomInt(0, this._height);
+      } while (this._cellArray[x][y].isBomb());
 
-      this.cellArray[x][y].setBomb(true);
+      this._cellArray[x][y].setBomb(true);
     }
   }
 
@@ -195,21 +226,21 @@ class BombsControl {
    * Count all bombs in graph.
    */
   count = function() {
-    for (let x = 0; x < this.width; ++x) {
-      for (let y = 0; y < this.height; ++y) {
+    for (let x = 0; x < this._width; ++x) {
+      for (let y = 0; y < this._height; ++y) {
         let bombsAround = 0;
 
-        if (!this.cellArray[x][y].isBomb()) {
+        if (!this._cellArray[x][y].isBomb()) {
           // Count bombs around this cell;
           for (let k = 0; k < dx.length; ++k) {
-            if (x + dx[k] >= 0 && x + dx[k] < this.width &&
-              y + dy[k] >= 0 && y + dy[k] < this.height &&
-              this.cellArray[x + dx[k]][y + dy[k]].isBomb()) {
+            if (x + dx[k] >= 0 && x + dx[k] < this._width &&
+              y + dy[k] >= 0 && y + dy[k] < this._height &&
+              this._cellArray[x + dx[k]][y + dy[k]].isBomb()) {
               ++bombsAround;
             }
           }
 
-          this.cellArray[x][y].setBombsAround(bombsAround);
+          this._cellArray[x][y].setBombsAround(bombsAround);
         }
       }
     }
@@ -222,7 +253,7 @@ class BombsControl {
    * @returns BombCell
    */
   getCell = function(x, y) {
-    return this.cellArray[x][y];
+    return this._cellArray[x][y];
   }
 
   /**
@@ -231,7 +262,7 @@ class BombsControl {
    * @param {int} y 
    */
   openCell = function(x, y) {
-    this.cellArray[x][y].setOpened(true);
+    this._cellArray[x][y].setOpened(true);
   }
 
   /**
@@ -239,7 +270,7 @@ class BombsControl {
    * @returns int
    */
   getDefusedBombs = function() {
-    return this.defusedBombs;
+    return this._defusedBombs;
   }
 
   /**
@@ -247,7 +278,7 @@ class BombsControl {
    * @param {int} defusedBombs 
    */
   setDefusedBombs = function(defusedBombs) {
-    this.defusedBombs = defusedBombs;
+    this._defusedBombs = defusedBombs;
   }
 
   /**
@@ -255,7 +286,7 @@ class BombsControl {
    * @returns int
    */
   getCurrentBombs = function() {
-    return this.currentBombs;
+    return this._currentBombs;
   }
 
   /**
@@ -263,6 +294,6 @@ class BombsControl {
    * @param {int} currentBombs 
    */
   setCurrentBombs = function(currentBombs) {
-    this.currentBombs = currentBombs;
+    this._currentBombs = currentBombs;
   }
 }

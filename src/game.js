@@ -1,18 +1,18 @@
 class Game {
-  totalBombs;
-  canvasControl;
-  bombsControl;
-  width;
-  height;
-  clockHandle;
-
+  _canvasControl;
+  _bombsControl;
+  _totalBombs;
+  _clockHandle;
+  _width;
+  _height;
+  
   constructor(gameSize) {
     this.setGameSize(gameSize);
     this.startGame();
     this.initClock();
 
     // Update total bombs.
-    this.canvasControl.writeBombsLeft(this.bombsControl.getCurrentBombs());
+    this._canvasControl.writeBombsLeft(this._bombsControl.getCurrentBombs());
   }
 
   /**
@@ -22,21 +22,21 @@ class Game {
   setGameSize = function(gameSize) {
     switch (gameSize) {
       case '8x':
-        this.totalBombs = 10;
-        this.width      = 8;
-        this.height     = 8;
+        this._totalBombs = 10;
+        this._width      = 8;
+        this._height     = 8;
         break;
   
       case '16x':
-        this.totalBombs = 40;
-        this.width      = 16;
-        this.height     = 16;
+        this._totalBombs = 40;
+        this._width      = 16;
+        this._height     = 16;
         break;
   
       case '30x':
-        this.totalBombs = 99;
-        this.width      = 30;
-        this.height     = 30;
+        this._totalBombs = 99;
+        this._width      = 30;
+        this._height     = 30;
         break;
   
       default:
@@ -49,12 +49,12 @@ class Game {
    */
   startGame = function() {
     // Create a new canvas, with width, height and default boxSize
-    this.canvasControl = new CanvasControl(this.width, this.height); 
+    this._canvasControl = new CanvasControl(this._width, this._height); 
     
     // Create a new bombs control.
-    this.bombsControl  = new BombsControl(
-      this.width, this.height, 
-      this.totalBombs
+    this._bombsControl  = new BombsControl(
+      this._width, this._height, 
+      this._totalBombs
     );
 
     this.leftClickHandleBinded = this.leftClickHandle.bind(this);
@@ -69,10 +69,10 @@ class Game {
    * @param {EventListener} e 
    */
   leftClickHandle = function(e) {
-    let x = Math.floor(e.offsetX / this.canvasControl.getBoxSize());
-    let y = Math.floor(e.offsetY / this.canvasControl.getBoxSize());
+    let x = Math.floor(e.offsetX / this._canvasControl.getBoxSize());
+    let y = Math.floor(e.offsetY / this._canvasControl.getBoxSize());
 
-    let currentCell = this.bombsControl.getCell(x, y);
+    let currentCell = this._bombsControl.getCell(x, y);
 
     if (currentCell.safeOpen()) {
       this.openSafeCells(x, y);
@@ -82,7 +82,7 @@ class Game {
       }
     }
 
-    else if (currentCell.bombOpen) {
+    else if (currentCell.bombOpen()) {
       this.endGame();
     }
 
@@ -94,23 +94,23 @@ class Game {
    * @param {EventListener} e 
    */
   rightClickHandle = function(e) {
-    let x = Math.floor(e.offsetX / this.canvasControl.getBoxSize());
-    let y = Math.floor(e.offsetY / this.canvasControl.getBoxSize());
+    let x = Math.floor(e.offsetX / this._canvasControl.getBoxSize());
+    let y = Math.floor(e.offsetY / this._canvasControl.getBoxSize());
 
-    let currentCell = this.bombsControl.getCell(x, y);
+    let currentCell = this._bombsControl.getCell(x, y);
 
     if (currentCell.canMark()) {
-      this.canvasControl.setColour(x, y, markedColour);
+      this._canvasControl.setColour(x, y, markedColour);
 
       currentCell.setMarked(true);
 
-      this.bombsControl.setCurrentBombs(
-        this.bombsControl.getCurrentBombs() - 1
+      this._bombsControl.setCurrentBombs(
+        this._bombsControl.getCurrentBombs() - 1
       );
 
       if (currentCell.isBomb()) {
-        this.bombsControl.setDefusedBombs(
-          this.bombsControl.getDefusedBombs() + 1
+        this._bombsControl.setDefusedBombs(
+          this._bombsControl.getDefusedBombs() + 1
         );
       }
 
@@ -121,23 +121,23 @@ class Game {
     }
 
     else if (currentCell.canUnmark()) {
-      this.canvasControl.setColour(x, y, unmarkColour);
+      this._canvasControl.setColour(x, y, unmarkColour);
 
       currentCell.setMarked(false);
 
-      this.bombsControl.setCurrentBombs(
-        this.bombsControl.getCurrentBombs() + 1
+      this._bombsControl.setCurrentBombs(
+        this._bombsControl.getCurrentBombs() + 1
       );
 
       if (currentCell.isBomb()) {
-        this.bombsControl.setDefusedBombs(
-          this.bombsControl.getDefusedBombs() - 1
+        this._bombsControl.setDefusedBombs(
+          this._bombsControl.getDefusedBombs() - 1
         );
       }
     }
 
-    this.canvasControl.writeBombsLeft(
-      this.bombsControl.getCurrentBombs()
+    this._canvasControl.writeBombsLeft(
+      this._bombsControl.getCurrentBombs()
     );
 
     e.preventDefault();
@@ -148,7 +148,7 @@ class Game {
    */
   winning = function() {
     // Write winning
-    this.canvasControl.writeWinning(this.totalBombs);
+    this._canvasControl.writeWinning(this.totalBombs);
   }
 
   /**
@@ -156,7 +156,7 @@ class Game {
    */
   losing = function() {
     // Write losing.
-    this.canvasControl.writeLosing(this.bombsControl.getDefusedBombs());
+    this._canvasControl.writeLosing(this._bombsControl.getDefusedBombs());
   }
 
   /**
@@ -174,12 +174,12 @@ class Game {
     }
 
     // Show locations of all bombs.
-    for (let i = 0; i < this.width; ++i) {
-      for (let j = 0; j < this.height; ++j) {
-        let currentCell = this.bombsControl.getCell(i, j);
+    for (let i = 0; i < this._width; ++i) {
+      for (let j = 0; j < this._height; ++j) {
+        let currentCell = this._bombsControl.getCell(i, j);
 
         if (currentCell.isBomb()) {
-          this.canvasControl.setColour(
+          this._canvasControl.setColour(
             i, j,
             currentCell.hasDefused() ? defusedColour : hasBombColour
           );
@@ -196,18 +196,18 @@ class Game {
    * @param {int} y 
    */
   openSafeCells = function(x, y) { 
-    let currentCell = this.bombsControl.getCell(x, y);
+    let currentCell = this._bombsControl.getCell(x, y);
     
     // Open that cell.
-    this.bombsControl.openCell(x, y);
+    this._bombsControl.openCell(x, y);
 
     // And set colour to opened.
-    this.canvasControl.setColour(x, y, noBombColour);
+    this._canvasControl.setColour(x, y, noBombColour);
 
     // If around this cell is bombs, then set the bomb count
     // and break the loops.
     if (currentCell.getBombsAround() > 0) {
-      this.canvasControl.setText(
+      this._canvasControl.setText(
         x, y,
         currentCell.getBombsAround()
       );
@@ -215,13 +215,13 @@ class Game {
     }
 
     for (let i = 0; i < dx.length; ++i) {
-      if (x + dx[i] < this.width && x + dx[i] >= 0 &&
-          y + dy[i] < this.height && y + dy[i] >= 0 &&
-          !this.bombsControl
+      if (x + dx[i] < this._width && x + dx[i] >= 0 &&
+          y + dy[i] < this._height && y + dy[i] >= 0 &&
+          !this._bombsControl
               .getCell(x + dx[i], y + dy[i])
               .cannotOpen()) {
-            this.openSafeCells(x + dx[i], y + dy[i]);
-          }
+        this.openSafeCells(x + dx[i], y + dy[i]);
+      }
     }
   }
 
@@ -230,21 +230,21 @@ class Game {
    * @returns bool
    */
   isFinished = function() {
-    return (this.totalBombs == this.bombsControl.getDefusedBombs() &&
-            this.bombsControl.getCurrentBombs() == 0);
+    return (this._totalBombs == this._bombsControl.getDefusedBombs() &&
+            this._bombsControl.getCurrentBombs() == 0);
   }
 
   /**
    * Create a clock.
    */
   initClock = function() {
-    if (this.clockHandle) {
+    if (this._clockHandle) {
       this.destroyClock();
     }
 
     clock.innerText = 0;
 
-    this.clockHandle = setInterval(function() {
+    this._clockHandle = setInterval(function() {
       clock.innerText = Number(clock.innerText) + 1;
     }, 1000);
   }
@@ -253,9 +253,9 @@ class Game {
    * Destroy this clock.
    */
   destroyClock = function() {
-    clearInterval(this.clockHandle);
+    clearInterval(this._clockHandle);
 
-    this.clockHandle = false;
+    this._clockHandle = false;
   }
 
   /**
@@ -267,7 +267,7 @@ class Game {
     grid.removeEventListener('click', this.leftClickHandleBinded);
     grid.removeEventListener('contextmenu', this.rightClickHandleBinded);
 
-    this.bombsControl = {};
-    this.canvasControl = {};
+    this._bombsControl = {};
+    this._canvasControl = {};
   }
 }
