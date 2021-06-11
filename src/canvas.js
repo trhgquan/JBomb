@@ -33,15 +33,15 @@ const resultColour  = '#ffffff';
  * Definition of the canvas control.
  */
 class CanvasControl {
-  canvas;
-  width;
-  height;
-  boxSize;
+  _canvas;
+  _width;
+  _height;
+  _boxSize;
 
   constructor(width, height, boxSize = 40) {
-    this.width = width;
-    this.height = height;
-    this.boxSize = boxSize;
+    this._width = width;
+    this._height = height;
+    this._boxSize = boxSize;
 
     this.draw();
   }
@@ -50,46 +50,46 @@ class CanvasControl {
    * Draw graphic grid.
    */
   draw = function() {
-    grid.height = this.height * this.boxSize;
-    grid.width = this.width * this.boxSize;
+    grid.height = this._height * this._boxSize;
+    grid.width = this._width * this._boxSize;
 
-    this.canvas = grid.getContext('2d');
+    this._canvas = grid.getContext('2d');
 
     // These codeblocks generate a (width * height) grid.
-    this.canvas.beginPath();
+    this._canvas.beginPath();
 
     // Colour of the cell.
-    this.canvas.fillStyle = unmarkColour;
+    this._canvas.fillStyle = unmarkColour;
 
     // Line width.
-    this.canvas.lineWidth = 3;
+    this._canvas.lineWidth = 3;
 
     // Line colour.
-    this.canvas.strokeStyle = lineColour;
+    this._canvas.strokeStyle = lineColour;
 
     // Text font.
-    this.canvas.font = '20px Times';
+    this._canvas.font = '20px Times';
 
-    for (let row = 0; row < this.width; ++row) {
-      for (let column = 0; column < this.height; ++column) {
+    for (let row = 0; row < this._width; ++row) {
+      for (let column = 0; column < this._height; ++column) {
         // Canvas draw here.
-        this.canvas.rect(
-          column * this.boxSize, 
-          row * this.boxSize, 
-          this.boxSize, this.boxSize
+        this._canvas.rect(
+          column * this._boxSize, 
+          row * this._boxSize, 
+          this._boxSize, this._boxSize
         );
-        this.canvas.fill();
-        this.canvas.stroke();
+        this._canvas.fill();
+        this._canvas.stroke();
       }
     }
 
-    this.canvas.closePath();
+    this._canvas.closePath();
 
     this.writeSize();
   }
 
   getBoxSize = function() {
-    return this.boxSize;
+    return this._boxSize;
   }
 
   /**
@@ -100,11 +100,11 @@ class CanvasControl {
    * @param {string} colour Colour string
    */
   setColour = function (x, y, colour) {
-    this.canvas.fillStyle = colour;
-    this.canvas.fillRect(
-      (x * this.boxSize) + 2, 
-      (y * this.boxSize) + 2, 
-      this.boxSize - 4, this.boxSize - 4
+    this._canvas.fillStyle = colour;
+    this._canvas.fillRect(
+      (x * this._boxSize) + 2, 
+      (y * this._boxSize) + 2, 
+      this._boxSize - 4, this._boxSize - 4
     );
   }
 
@@ -116,11 +116,11 @@ class CanvasControl {
    * @param {string} txt text
    */
   setText = function (x, y, txt) {
-    this.canvas.fillStyle = textColour;
-    this.canvas.fillText(
+    this._canvas.fillStyle = textColour;
+    this._canvas.fillText(
       txt, 
-      (this.boxSize * x) + (this.boxSize / 2.5), 
-      (this.boxSize * y) + (this.boxSize / 1.75)
+      (this._boxSize * x) + (this._boxSize / 2.5), 
+      (this._boxSize * y) + (this._boxSize / 1.75)
     );
   }
 
@@ -130,9 +130,9 @@ class CanvasControl {
    writeSize = function() {
     // Tell the user the grid_size.
     grid_size_display.innerHTML = 'Grid size: ' + 
-                                  this.width + 
+                                  this._width + 
                                   ' &times; ' + 
-                                  this.height;
+                                  this._height;
   }
 
   /**
