@@ -57,8 +57,11 @@ class Game {
       this.totalBombs
     );
 
-    grid.addEventListener('click', this.leftClickHandle.bind(this));
-    grid.addEventListener('contextmenu', this.rightClickHandle.bind(this));
+    this.leftClickHandleBinded = this.leftClickHandle.bind(this);
+    this.rightClickHandleBinded = this.rightClickHandle.bind(this);
+
+    grid.addEventListener('click', this.leftClickHandleBinded);
+    grid.addEventListener('contextmenu', this.rightClickHandleBinded);
   }
 
   /**
@@ -262,7 +265,7 @@ class Game {
     this.bombsControl = {};
     this.canvasControl = {};
 
-    grid.removeEventListener('click', this.leftClickHandle);
-    grid.removeEventListener('contextmenu', this.rightClickHandle);
+    grid.removeEventListener('click', this.leftClickHandleBinded);
+    grid.removeEventListener('contextmenu', this.rightClickHandleBinded);
   }
 }
