@@ -19,7 +19,7 @@ class Game {
    * Set the game size.
    * @param {int} gameSize 
    */
-  setGameSize(gameSize) {
+  setGameSize = function(gameSize) {
     switch (gameSize) {
       case '8x':
         this.totalBombs = 10;
@@ -116,6 +116,7 @@ class Game {
 
       if (this.isFinished()) {
         this.endGame();
+        return;
       }
     }
 
@@ -155,7 +156,7 @@ class Game {
    */
   losing = function() {
     // Write losing.
-    this.canvasControl.writeLosing(this.bombsControl.getCurrentBombs());
+    this.canvasControl.writeLosing(this.bombsControl.getDefusedBombs());
   }
 
   /**
@@ -260,12 +261,13 @@ class Game {
   /**
    * Destructor.
    */
-  destructor() {
+  destructor = function() {
     this.destroyClock();
-    this.bombsControl = {};
-    this.canvasControl = {};
 
     grid.removeEventListener('click', this.leftClickHandleBinded);
     grid.removeEventListener('contextmenu', this.rightClickHandleBinded);
+
+    this.bombsControl = {};
+    this.canvasControl = {};
   }
 }
