@@ -46,6 +46,9 @@ class CanvasControl {
     this.draw();
   }
 
+  /**
+   * Draw graphic grid.
+   */
   draw = function() {
     grid.height = this.height * this.boxSize;
     grid.width = this.width * this.boxSize;
@@ -83,6 +86,10 @@ class CanvasControl {
     this.canvas.closePath();
 
     this.writeSize();
+  }
+
+  getBoxSize = function() {
+    return this.boxSize;
   }
 
   /**
@@ -148,6 +155,10 @@ class CanvasControl {
     result.appendChild(newNode);
   }
 
+  /**
+   * Write when lose.
+   * @param {int} bombsCount 
+   */
   writeLosing = function(bombsCount) {
     const newNode = document.createTextNode('Bombs defused: ' + bombsCount);
 

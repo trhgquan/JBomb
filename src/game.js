@@ -56,6 +56,87 @@ class Game {
       this.width, this.height, 
       this.totalBombs
     );
+
+    grid.addEventListener('click', this.leftClickHandle.bind(this));
+    grid.addEventListener('contextmenu', this.rightClickHandle.bind(this));
+  }
+
+  /**
+   * Handle left click.
+   * @param {EventListener} e 
+   */
+  leftClickHandle = function(e) {
+    let x = Math.floor(e.offsetX / this.canvasControl.getBoxSize());
+    let y = Math.floor(e.offsetY / this.canvasControl.getBoxSize());
+
+    let currentCell = this.bombsControl.getCell(x, y);
+
+    if (currentCell.safeOpen()) {
+      this.openSafeCells(x, y);
+
+      if (this.isFinished()) {
+        this.endGame();
+      }
+    }
+
+    else if (currentCell.bombOpen) {
+      this.endGame();
+    }
+
+    e.preventDefault();
+  }
+
+  /**
+   * Handle right click.
+   * @param {EventListener} e 
+   */
+  rightClickHandle = function(e) {
+    let x = Math.floor(e.offsetX / this.canvasControl.getBoxSize());
+    let y = Math.floor(e.offsetY / this.canvasControl.getBoxSize());
+
+    let currentCell = this.bombsControl.getCell(x, y);
+
+    if (currentCell.canMark()) {
+      this.canvasControl.setColour(x, y, markedColour);
+
+      currentCell.setMarked(true);
+
+      this.bombsControl.setCurrentBombs(
+        this.bombsControl.getCurrentBombs() - 1
+      );
+
+      if (currentCell.isBomb()) {
+        this.bombsControl.setDefusedBombs(
+          this.bombsControl.getDefusedBombs() + 1
+        );
+      }
+
+      if (this.isFinished()) {
+        this.endGame();
+      }
+    }
+
+    else if (currentCell.canUnmark()) {
+      this.canvasControl.setColour(x, y, unmarkColour);
+
+      currentCell.setMarked(false);
+
+      this.bombsControl.setCurrentBombs(
+        this.bombsControl.getCurrentBombs() + 1
+      );
+
+      if (currentCell.isBomb()) {
+        this.bombsControl.setDefusedBombs(
+          this.bombsControl.getDefusedBombs() - 1
+        );
+      }
+    }
+
+    this.canvasControl.writeBombsLeft(
+      this.bombsControl.getCurrentBombs()
+    );
+
+    e.preventDefault();
   }
 
   /**
@@ -101,6 +182,8 @@ class Game {
         }
       }
     }
+
+    this.destructor();
   }
 
   /**
@@ -155,6 +238,8 @@ class Game {
       this.destroyClock();
     }
 
+    clock.innerText = 0;
+
     this.clockHandle = setInterval(function() {
       clock.innerText = Number(clock.innerText) + 1;
     }, 1000);
@@ -166,14 +251,18 @@ class Game {
   destroyClock = function() {
     clearInterval(this.clockHandle);
 
-    clock.innerText = 0;
-
     this.clockHandle = false;
   }
 
+  /**
+   * Destructor.
+   */
   destructor() {
     this.destroyClock();
     this.bombsControl = {};
     this.canvasControl = {};
+
+    grid.removeEventListener('click', this.leftClickHandle);
+    grid.removeEventListener('contextmenu', this.rightClickHandle);
   }
 }
