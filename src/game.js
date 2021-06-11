@@ -147,7 +147,7 @@ class Game {
    */
   winning = function () {
     // Write winning
-    this._canvasControl.writeWinning(this.totalBombs);
+    this._canvasControl.writeWinning(this._totalBombs);
   };
 
   /**
