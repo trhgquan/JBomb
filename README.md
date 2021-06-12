@@ -1,4 +1,5 @@
 # JBomb
+![GitHub branch checks state](https://img.shields.io/github/checks-status/trhgquan/JBomb/master)
 ![GitHub top language](https://img.shields.io/github/languages/top/trhgquan/jbomb?style=flat-square)
 
 JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.
@@ -10,15 +11,13 @@ Execute a `git clone`:
 git clone git@github.com:trhgquan/JBomb.git
 ```
 
-# DEMO
+# Technology used
+- [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)
+- [HTML5 Canvas](https://www.w3schools.com/html/html5_canvas.asp)
+- Some graph algorithms: [DFS](https://en.wikipedia.org/wiki/Depth-first_search).
+
+# Demo
 [Live demo here](https://trhgquan.github.io/JBomb/index.html)
-
-# Author
-The Original Chú Mèo Chui Xoong - [@trhgquan](https://github.com/trhgquan)
-
-Also Chú Mèo Chui Xoong, but stronger - [@meadoge](https://github.com/meadoge)
-
-Still Chu Meo Chui Xoong, but in Ubuntu - [@hwangswan](https://github.com/hwnagswan)
 
 # License
 JBomb is licensed under [The MIT License](https://github.com/trhgquan/JBomb/blob/master/LICENSE)
