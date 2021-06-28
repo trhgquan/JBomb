@@ -1,5 +1,5 @@
 # JBomb
-![GitHub branch checks state](https://img.shields.io/github/checks-status/trhgquan/JBomb/master)
+[![Run Lighthouse check.](https://github.com/trhgquan/JBomb/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/trhgquan/JBomb/actions/workflows/lighthouse.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/trhgquan/jbomb?style=flat-square)
 
 JBomb - a Minesweeper-like game created with VanillaJS (pure JavaScript) and HTML5 Canvas.
