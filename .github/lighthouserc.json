@@ -7,7 +7,7 @@
       "assertions": {
         "categories.performance": [
           "error", {
-            "minScore": 1
+            "minScore": 0.9
           }
         ],
         "categories.accessibility": [
