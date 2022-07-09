@@ -1,8 +1,8 @@
 /**
  * Positions to traverse.
  */
-const dx = [1, -1, 0, 0, 1, -1, 1, -1];
-const dy = [0, 0, 1, -1, 1, -1, -1, 1];
+export const dx = [1, -1, 0, 0, 1, -1, 1, -1];
+export const dy = [0, 0, 1, -1, 1, -1, -1, 1];
 
 /**
  * Flags for a bomb.
@@ -164,7 +164,7 @@ class bombCell {
 /**
  * Bombs control.
  */
-class BombsControl {
+export class BombsControl {
   _cellArray;
   _currentBombs;
   _defusedBombs;

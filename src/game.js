@@ -1,3 +1,7 @@
+import * as GameConst from "./const.js";
+import { BombsControl, dx, dy } from "./bomb.js";
+import CanvasControl from "./canvas.js";
+
 class Game {
   _canvasControl;
   _bombsControl;
@@ -14,9 +18,6 @@ class Game {
     this.setGameSize(gameSize);
     this.startGame();
     this.initClock();
-
-    // Update total bombs.
-    this._canvasControl.writeBombsLeft(this._bombsControl.getCurrentBombs());
   }
 
   /**
@@ -65,8 +66,13 @@ class Game {
     this.leftClickHandleBinded = this.leftClickHandle.bind(this);
     this.rightClickHandleBinded = this.rightClickHandle.bind(this);
 
-    grid.addEventListener("click", this.leftClickHandleBinded);
-    grid.addEventListener("contextmenu", this.rightClickHandleBinded);
+    // Update total bombs.
+    this._canvasControl.writeBombsLeft(this._bombsControl.getCurrentBombs());
+    GameConst.result.style.color = GameConst.textColour;
+
+    // Enable event for grid
+    GameConst.grid.addEventListener("click", this.leftClickHandleBinded);
+    GameConst.grid.addEventListener("contextmenu", this.rightClickHandleBinded);
   };
 
   /**
@@ -103,7 +109,7 @@ class Game {
     let currentCell = this._bombsControl.getCell(x, y);
 
     if (currentCell.canMark()) {
-      this._canvasControl.setColour(x, y, markedColour);
+      this._canvasControl.setColour(x, y, GameConst.markedColour);
 
       currentCell.setMarked(true);
 
@@ -122,7 +128,7 @@ class Game {
         return;
       }
     } else if (currentCell.canUnmark()) {
-      this._canvasControl.setColour(x, y, unmarkColour);
+      this._canvasControl.setColour(x, y, GameConst.unmarkColour);
 
       currentCell.setMarked(false);
 
@@ -179,7 +185,7 @@ class Game {
           this._canvasControl.setColour(
             i,
             j,
-            currentCell.hasDefused() ? defusedColour : hasBombColour
+            currentCell.hasDefused() ? GameConst.defusedColour : GameConst.hasBombColour
           );
         }
       }
@@ -200,7 +206,7 @@ class Game {
     this._bombsControl.openCell(x, y);
 
     // And set colour to opened.
-    this._canvasControl.setColour(x, y, noBombColour);
+    this._canvasControl.setColour(x, y, GameConst.noBombColour);
 
     // If around this cell is bombs, then set the bomb count
     // and break the loops.
@@ -241,10 +247,10 @@ class Game {
       this.destroyClock();
     }
 
-    clock.innerText = 0;
+    GameConst.clock.innerText = 0;
 
     this._clockHandle = setInterval(function () {
-      clock.innerText = Number(clock.innerText) + 1;
+      GameConst.clock.innerText = Number(GameConst.clock.innerText) + 1;
     }, 1000);
   };
 
@@ -263,10 +269,12 @@ class Game {
   destructor = function () {
     this.destroyClock();
 
-    grid.removeEventListener("click", this.leftClickHandleBinded);
-    grid.removeEventListener("contextmenu", this.rightClickHandleBinded);
+    GameConst.grid.removeEventListener("click", this.leftClickHandleBinded);
+    GameConst.grid.removeEventListener("contextmenu", this.rightClickHandleBinded);
 
     this._bombsControl = {};
     this._canvasControl = {};
   };
 }
+
+export default Game;

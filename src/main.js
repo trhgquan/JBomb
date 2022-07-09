@@ -1,14 +1,12 @@
-/**
- * Constants for game aka width, height and total bombs;
- */
+import * as GameConst from "./const.js";
+import Game from "./game.js";
 
-// Game constant.
 var gameHandle;
 
 /**
  * playBtn click handling, this draw the game canvas and start the game
  */
-playBtn.addEventListener("click", function (e) {
+GameConst.playBtn.addEventListener("click", function (e) {
   try {
     let selectedInput = document.querySelector(
       'input[name="gridSize"]:checked'
@@ -28,8 +26,8 @@ playBtn.addEventListener("click", function (e) {
     }
     gameHandle = new Game(inputSize);
   } catch (error) {
-    result.innerText = error;
-    result.style.color = hasBombColour;
+    GameConst.result.innerText = error;
+    GameConst.result.style.color = GameConst.hasBombColour;
   }
 
   e.preventDefault();

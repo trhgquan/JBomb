@@ -1,33 +1,4 @@
-/**
- * Global constants, DOM Elements mostly.
- */
-
-// Result is updated and write to this element
-const result = document.getElementById("result");
-
-// Grid size will be display here
-const grid_size_display = document.getElementById("grid_size_display");
-
-// Grid will be draw here
-const grid = document.getElementById("grid");
-
-// Clock will be draw here
-const clock = document.getElementById("clock");
-
-// Play button is here
-const playBtn = document.getElementById("playBtn");
-
-/**
- * Game Canvas constants, colour mostly
- */
-const unmarkColour = "#808080";
-const markedColour = "#ffa500";
-const noBombColour = "#53d16e";
-const hasBombColour = "#f00000";
-const defusedColour = "#00ffff";
-const lineColour = "#000000";
-const textColour = "#000000";
-const resultColour = "#ffffff";
+import * as GameConst from "./const.js";
 
 /**
  * Definition of the canvas control.
@@ -56,22 +27,22 @@ class CanvasControl {
    * Draw graphic grid.
    */
   draw = function () {
-    grid.height = this._height * this._boxSize;
-    grid.width = this._width * this._boxSize;
+    GameConst.grid.height = this._height * this._boxSize;
+    GameConst.grid.width = this._width * this._boxSize;
 
-    this._canvas = grid.getContext("2d");
+    this._canvas = GameConst.grid.getContext("2d");
 
     // These codeblocks generate a (width * height) grid.
     this._canvas.beginPath();
 
     // Colour of the cell.
-    this._canvas.fillStyle = unmarkColour;
+    this._canvas.fillStyle = GameConst.unmarkColour;
 
     // Line width.
     this._canvas.lineWidth = 3;
 
     // Line colour.
-    this._canvas.strokeStyle = lineColour;
+    this._canvas.strokeStyle = GameConst.lineColour;
 
     // Text font.
     this._canvas.font = "20px Times";
@@ -124,7 +95,7 @@ class CanvasControl {
    * @param {string} txt text
    */
   setText = function (x, y, txt) {
-    this._canvas.fillStyle = textColour;
+    this._canvas.fillStyle = GameConst.textColour;
     this._canvas.fillText(
       txt,
       this._boxSize * x + this._boxSize / 2.5,
@@ -137,7 +108,7 @@ class CanvasControl {
    */
   writeSize = function () {
     // Tell the user the grid_size.
-    grid_size_display.innerHTML =
+    GameConst.grid_size_display.innerHTML =
       "Grid size: " + this._width + " &times; " + this._height;
   };
 
@@ -146,7 +117,7 @@ class CanvasControl {
    * @param {int} bombsCount
    */
   writeBombsLeft = function (bombsCount) {
-    result.innerText = "Bombs left: " + bombsCount;
+    GameConst.result.innerText = "Bombs left: " + bombsCount;
   };
 
   /**
@@ -156,9 +127,9 @@ class CanvasControl {
   writeWinning = function (bombsCount) {
     const newNode = document.createTextNode("Bombs defused: " + bombsCount);
 
-    result.innerText = "Status: WON / ";
-    result.style.color = noBombColour;
-    result.appendChild(newNode);
+    GameConst.result.innerText = "Status: WON / ";
+    GameConst.result.style.color = GameConst.noBombColour;
+    GameConst.result.appendChild(newNode);
   };
 
   /**
@@ -168,8 +139,10 @@ class CanvasControl {
   writeLosing = function (bombsCount) {
     const newNode = document.createTextNode("Bombs defused: " + bombsCount);
 
-    result.innerText = "Status: LOST / ";
-    result.style.color = hasBombColour;
-    result.appendChild(newNode);
+    GameConst.result.innerText = "Status: LOST / ";
+    GameConst.result.style.color = GameConst.hasBombColour;
+    GameConst.result.appendChild(newNode);
   };
 }
+
+export default CanvasControl;
