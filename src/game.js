@@ -185,7 +185,9 @@ class Game {
           this._canvasControl.setColour(
             i,
             j,
-            currentCell.hasDefused() ? GameConst.defusedColour : GameConst.hasBombColour
+            currentCell.hasDefused()
+              ? GameConst.defusedColour
+              : GameConst.hasBombColour
           );
         }
       }
@@ -270,7 +272,10 @@ class Game {
     this.destroyClock();
 
     GameConst.grid.removeEventListener("click", this.leftClickHandleBinded);
-    GameConst.grid.removeEventListener("contextmenu", this.rightClickHandleBinded);
+    GameConst.grid.removeEventListener(
+      "contextmenu",
+      this.rightClickHandleBinded
+    );
 
     this._bombsControl = {};
     this._canvasControl = {};
